@@ -29,61 +29,61 @@ class PDF extends FPDF
 		// 	// Line break
 		//     $this->Ln(5);
 		// }elseif ($pdf_type == "invoice") {
-			$this->SetFillColor(217,217,217);
-			$fill=true;
-			//row 1
+		$this->SetFillColor(217,217,217);
+		$fill=true;
+		//row 1
 
-			$this->SetFont('Arial','',10);
-			$this->Cell(170,30,"",0,1); //black space for logo or something
-			$this->Cell(170,5,"VAT Number: 100019982600003",0,1,'R');
-			$this->SetFont('Arial','BU',16);
-			$this->Cell(170,5,"Tax Invoice",0,1,'C');
+		$this->SetFont('Arial','',10);
+		$this->Cell(170,30,"",0,1); //black space for logo or something
+		$this->Cell(170,5,"VAT Number: 100019982600003",0,1,'R');
+		$this->SetFont('Arial','BU',16);
+		$this->Cell(170,5,"Tax Invoice",0,1,'C');
 
-			$this->SetFont('Arial','',9);
-			//row2
-			$this->Cell(80,5,'Customer Details',1,0,'L',$fill);
-			$this->Cell(45,5,'Invoice #',1,0,'C',$fill);
-			$this->Cell(45,5,'Date',1,1,'C',$fill);
+		$this->SetFont('Arial','',9);
+		//row2
+		$this->Cell(80,5,'Customer Details',1,0,'L',$fill);
+		$this->Cell(45,5,'Invoice #',1,0,'C',$fill);
+		$this->Cell(45,5,'Date',1,1,'C',$fill);
 
-			//row3
-			$this->Cell(25,5,'Customer Name',1,0,'L',$fill);
-			$this->Cell(55,5,$this->oinfo['InOmCompanyName'],1,0,'C');
-			$this->Cell(45,5,$this->oinfo['InId'],1,0,'C');
-			$this->Cell(45,5,date('d-m-Y h:i a', strtotime($this->oinfo['InCreatedOn'])),1,1,'C');
+		//row3
+		$this->Cell(15,5,'Name',1,0,'L',$fill);
+		$this->Cell(65,5,$this->oinfo['InOmCompanyName'],1,0,'L');
+		$this->Cell(45,5,$this->oinfo['InId'],1,0,'C');
+		$this->Cell(45,5,date('d-m-Y h:i a', strtotime($this->oinfo['InCreatedOn'])),1,1,'C');
 
-			//row4
-			$this->Cell(25,5,'Address',1,0,'L',$fill);
-			$this->Cell(55,5,$this->oinfo['InOmAdd'],1,0,'C');
-			$this->Cell(45,5,'Customer ID',1,0,'C',$fill);
-			$this->Cell(45,5,'Due Date',1,1,'C',$fill);
+		//row4
+		$this->Cell(15,5,'Address',1,0,'L',$fill);
+		$this->Cell(65,5,$this->oinfo['InOmAdd'],1,0,'L');
+		$this->Cell(45,5,'Customer ID',1,0,'C',$fill);
+		$this->Cell(45,5,'Due Date',1,1,'C',$fill);
 
-			//row5
-			$this->Cell(25,5,'Phone',1,0,'L',$fill);
-			$this->Cell(55,5,$this->oinfo['InOmTel1'],1,0,'C');
-			$this->Cell(45,5,$this->oinfo['InOmCompanyCode'],1,0,'C');
-			$this->Cell(45,5,date('d-m-Y', strtotime($this->oinfo['inDueDate'])),1,1,'C');
+		//row5
+		$this->Cell(15,5,'Phone',1,0,'L',$fill);
+		$this->Cell(65,5,$this->oinfo['InOmTel1'],1,0,'L');
+		$this->Cell(45,5,$this->oinfo['InOmCompanyCode'],1,0,'C');
+		$this->Cell(45,5,date('d-m-Y', strtotime($this->oinfo['inDueDate'])),1,1,'C');
 
-			//row6
-			$this->Cell(25,5,'Phone 2',1,0,'L',$fill);
-			$this->Cell(55,5,$this->oinfo['InOmTel2'],1,0,'C');
-			$this->Cell(90,5,'VAT Registration #',1,1,'C',$fill);
+		//row6
+		$this->Cell(15,5,'Phone 2',1,0,'L',$fill);
+		$this->Cell(65,5,$this->oinfo['InOmTel2'],1,0,'L');
+		$this->Cell(90,5,'VAT Registration #',1,1,'C',$fill);
 
-			//row7
-			$this->Cell(25,5,'LPO No:',1,0,'L',$fill);
-			$this->Cell(55,5,$this->oinfo['InOmLpo'],1,0,'C');
-			$this->Cell(90,5,$this->oinfo['ClVatNo'],1,1,'C');
+		//row7
+		$this->Cell(15,5,'LPO No:',1,0,'L',$fill);
+		$this->Cell(65,5,$this->oinfo['InOmLpo'],1,0,'C');
+		$this->Cell(90,5,$this->oinfo['ClVatNo'],1,1,'C');
 
-			//row8 table column header
+		//row8 table column header
 
-			$this->cell(10,5,'No.',1,0,'C'); //sr no
-			$this->cell(30,5,'Part No',1,0,'C'); //part no
-			$this->cell(55,5,'Description',1,0,'C'); //description
-			$this->cell(15,5,'Left Qty',1,0,'C'); //left qty
-			$this->cell(15,5,'Right Qty',1,0,'C'); //right qty
-			$this->cell(15,5,'Total Qty',1,0,'C'); //total qty
-			$this->cell(15,5,'Price',1,0,'C'); //price
-			$this->cell(15,5,'Amount',1,1,'C'); //amount
-			// $this->cell(); //
+		$this->cell(10,5,'No.',1,0,'C'); //sr no
+		$this->cell(30,5,'Part No',1,0,'C'); //part no
+		$this->cell(55,5,'Description',1,0,'C'); //description
+		$this->cell(15,5,'Left Qty',1,0,'C'); //left qty
+		$this->cell(15,5,'Right Qty',1,0,'C'); //right qty
+		$this->cell(15,5,'Total Qty',1,0,'C'); //total qty
+		$this->cell(15,5,'Price',1,0,'C'); //price
+		$this->cell(15,5,'Amount',1,1,'C'); //amount
+		// $this->cell(); //
 
 		// }
 	}
@@ -127,8 +127,8 @@ class PDF extends FPDF
 			$this->Cell($headerwidth[3],6,$row['IiOiLeftQty'],1,0,'C',$fill);
 			$this->Cell($headerwidth[4],6,$row['IiOiRightQty'],1,0,'C',$fill);
 			$this->Cell($headerwidth[5],6,$row['IiOiTotalQty'],1,0,'C',$fill);
-			$this->Cell($headerwidth[6],6,$row['IiOiPrice'],1,0,'C',$fill);
-			$this->Cell($headerwidth[7],6,$amount,1,0,'C',$fill);
+			$this->Cell($headerwidth[6],6,$row['IiOiPrice'],1,0,'R',$fill);
+			$this->Cell($headerwidth[7],6,$amount,1,0,'R',$fill);
 			$this->SetFontSize(10);
 			$this->Ln();
 			$totalAmount += $amount; //$amount is amount for each item. added on to totalAmount for sum.
