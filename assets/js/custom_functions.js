@@ -275,9 +275,6 @@ xmlhttp.onreadystatechange=function()
 xmlhttp.open("GET","getdesc.php?q="+str,true);
 xmlhttp.send();
 }*/
-
-
-
 function addRow(tableID)
 {
     var addrowform = $("#form_input");
@@ -356,3 +353,4 @@ function addRow(tableID)
         $('#Part_no').focus();
     }
 }
+

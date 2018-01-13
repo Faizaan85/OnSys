@@ -160,11 +160,15 @@
                     <li><a href="<?php echo base_url()?>orders" accesskey="o">Orders</a></li>
 	                <li><a href="<?php echo base_url()?>neworder" accesskey="n">New Order</a></li>
 	            </ul>
-	            <form <?php if($title!="Item Search") { echo ('target="_blank"');} ?> action="http://192.168.2.100/jquery_sandbox/item_search1.php" method="POST" class="navbar-form navbar-left">
+	            <form id="frm_search" <?php if($title
+	            	!="Item Search") { echo ('target="_blank"');} ?> action="http://192.168.2.100/jquery_sandbox/item_search1.php" method="POST" class="navbar-form navbar-left">
                     <div class="form-group">
+                    	<!-- <select name="search_options" id="sel_search_opt">
+                    		<option value="http://192.168.2.100/jquery_sandbox/item_search1.php">Old Data</option>
+                    	</select> -->
                         <input type="text" id="search" name="search_no1" class="form-control" placeholder="Search Order (F1)">
                     </div>
-                        <button type="submit" class="btn btn-default" >Submit</button>
+                        <button type="button" id="btnsubmit" class="btn btn-default" >Submit</button>
                 </form>
                 <ul class="nav navbar-nav">
                 	<li><a href="<?php echo base_url()?>returns" accesskey="r">Returns</a></li>

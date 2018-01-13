@@ -26,7 +26,7 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
 	    // <?php echo base_url()?>print/<?php echo ($orderinfo['OmId']);?>-->
 		<a href="#" id="print" class="btn <?php echo (($orderinfo['OmPrinted']==1)? "btn-danger":"btn-info")  ?> hidden-print" role="button">Print</a>
 
-	<label id="TotAmount" class="pull-right"> </label>
+	   <label id="TotAmount" class="pull-right"> </label>
     </div>
 
     <div class="row">

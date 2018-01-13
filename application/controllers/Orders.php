@@ -193,7 +193,7 @@ class Orders extends CI_Controller
 		// $this->load->model('order_model');
 		// $data['orders'] = $this->order_model->get_orders();
 		$data['title'] = ucfirst("orders");
-		$data['jslist']=array('orderslist.js');
+		$data['jslist']=array('custom_functions.js','orderslist.js');
 		// $data['autorefresh']=TRUE;
 		// $data['baseurl']=base_url();
 		$this->load->view('templates/header', $data);
@@ -306,7 +306,6 @@ class Orders extends CI_Controller
 
 	}
 
-
 	public function order_item_state()
 	{
 		$this->load->model('order_model');
@@ -358,7 +357,8 @@ class Orders extends CI_Controller
 			return FALSE;
 		}
 	}
-	public function crud_sales_order($state, $order_id="") {
+	public function crud_sales_order($state, $order_id="")
+	{
 		// 1.check what the state is.
 		// 2.after that check if user lvl is allowed to execute state.
 		// 3.check if its a valid order id and that its not being edited by someone else.
@@ -452,10 +452,24 @@ class Orders extends CI_Controller
 		$pdf->InvoiceTable($items);
 		date_default_timezone_set("Asia/Muscat");
 		$pdf->Output('F',$location.$inv_id.'-'.date("Ymd-his").'.pdf',true);
-		$pdf->Output('D','Invoice-'.$inv_id.'.pdf',true);
+		$pdf->Output('I','Invoice-'.$inv_id.'.pdf',true);
 
 		// echo ('Order saved :'.$orderNumber);
 
+	}
+	public function view_invoice($inv_id=0)
+	{
+		$this->load->model('order_model');
+		$data['invoiceinfo'] = $this->order_model->get_invoices($inv_id);
+		$data['items'] = $this->order_model->get_invoice_items($inv_id);
+		$data['title'] = "Invoice View";
+		$jslist =array("custom_functions.js");
+		$data['jslist'] = $jslist;
+		$data['autorefresh']=FALSE;
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('pages/v_invoice');
+		$this->load->view('templates/footer');
 	}
 
 }
