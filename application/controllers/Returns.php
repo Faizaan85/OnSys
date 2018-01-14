@@ -231,6 +231,8 @@ class Returns extends CI_Controller{
 	  $this->load->model('return_model');
       // First, we need to get the invoice number of the credit note.
 	  $invoice_id = $this->return_model->get_invoiceid($cn_id);
+    
+
 	  $invoice_id = $invoice_id['cnmInId'];
       // Second, we need to get the invoice itself
 	  $this->load->model('order_model');
@@ -238,10 +240,16 @@ class Returns extends CI_Controller{
       // And, invoice items
 	  $data['invitems'] = $this->order_model->get_invoice_items($invoice_id);
       // Third, we need to get the Order
-	  $order_id = $data['invinfo']['InOmId'];
-	  $data['invinfo'] = $this->order_model;
-	  $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
-	  $data['items'] = $this->return_model->get_credit_note_items($cn_id);
+	  $order_id = $data['invinfo']['InOmId'];    
+    $data['orderinfo'] = $this->order_model->get_orders($order_id);
+      // And, order items
+    $data['orderitems'] = $this->order_model->get_order($order_id);
+      // Fourth, Now the tough part. Need list of credit notes
+
+	  
+   //  $data['invinfo'] = $this->order_model;
+	  // $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
+	  // $data['items'] = $this->return_model->get_credit_note_items($cn_id);
 	  $data['title'] = "Credit Note View";
 	  $jslist = array("custom_functions.js","v_o_i_cns.js");
 	  $data['jslist'] = $jslist;

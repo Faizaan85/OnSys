@@ -96,7 +96,18 @@ class Return_model extends CI_Model {
 	{
 		$this->db->select('cnmInId');
 		$query = $this->db->get_where('creditnotemaster_user_client',array('cnmId'=>$cn_id));
-		return $query->row_array();
+		$result = $query->row_array();
+		if(isset($result))
+		{
+			return $result;
+		}
+		else{
+			return $this->db->error();
+		}
+	}
+	public function get_inv_credit_notes($inv_id)
+	{
+		
 	}
 
 }
