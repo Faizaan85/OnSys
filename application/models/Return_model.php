@@ -7,7 +7,7 @@ class Return_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 	}
 	public function get_credit_notes($cond = "ALL")
 	{
@@ -91,8 +91,14 @@ class Return_model extends CI_Model {
 			return $insert_id;
 		}
 		// return $insert_id;
-
 	}
+	public function get_invoiceid($cn_id)
+	{
+		$this->db->select('cnmInId');
+		$query = $this->db->get_where('creditnotemaster_user_client',array('cnmId'=>$cn_id));
+		return $query->row_array();
+	}
+
 }
 
 /* End of file Return_model.php */

@@ -166,7 +166,7 @@ class Returns extends CI_Controller{
 	  $data['jslist'] = array('custom_functions.js', 'credit_note.js');
     $data['mode'] = 'New';
 	  $this->load->view('templates/header',$data);
-	  $this->load->view('pages/v_credit_note');
+	  $this->load->view('pages/v_new_credit_note');
 	  $this->load->view('templates/footer');
   }
   public function get_credit_notes()
@@ -225,6 +225,32 @@ class Returns extends CI_Controller{
     date_default_timezone_set("Asia/Muscat");
     $pdf->Output('F',$location.$cnNo.'-'.date("Ymd-his").'.pdf',true);
     $pdf->Output('D','CN-'.$cnNo.'.pdf',true);
+  }
+  public function view_credit_note($cn_id=0)
+  {
+	  $this->load->model('return_model');
+      // First, we need to get the invoice number of the credit note.
+	  $invoice_id = $this->return_model->get_invoiceid($cn_id);
+	  $invoice_id = $invoice_id['cnmInId'];
+      // Second, we need to get the invoice itself
+	  $this->load->model('order_model');
+	  $data['invinfo'] = $this->order_model->get_invoices($invoice_id);
+      // And, invoice items
+	  $data['invitems'] = $this->order_model->get_invoice_items($invoice_id);
+      // Third, we need to get the Order
+	  $order_id = $data['invinfo']['InOmId'];
+	  $data['invinfo'] = $this->order_model;
+	  $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
+	  $data['items'] = $this->return_model->get_credit_note_items($cn_id);
+	  $data['title'] = "Credit Note View";
+	  $jslist = array("custom_functions.js","v_o_i_cns.js");
+	  $data['jslist'] = $jslist;
+	  $data['autorefresh'] = FALSE;
+
+	  $this->load->view('templates/header',$data);
+	  $this->load->view('pages/v_o_i_cns.php');
+	  $this->load->view('templates/footer');
+
   }
 
 }

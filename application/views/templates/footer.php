@@ -1,5 +1,5 @@
 
-	
+
 </body>
 <script type="text/javascript">
 	$('#btnsubmit').on('click',function(){
@@ -10,7 +10,7 @@
         var url=$base_url;
         switch(found){
             case "cn-":
-                url = url+"returns/get_credit_notes";
+                url = url+"returns/view_credit_note/"+str;
                 break;
             case "i-":
                 url = url+"invoice/"+str;
