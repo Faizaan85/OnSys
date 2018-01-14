@@ -23,33 +23,33 @@ class CNPDF extends FPDF
 
     $this->SetFont('Arial','',9);
     //row2
-    $this->Cell(90,5,'Customer Details',1,0,'L',$fill);
-    $this->Cell(40,5,'Credit Note #',1,0,'C',$fill);
-    $this->Cell(40,5,'Date',1,1,'C',$fill);
+    $this->Cell(80,5,'Customer Details',1,0,'L',$fill);
+    $this->Cell(45,5,'Credit Note #',1,0,'C',$fill);
+    $this->Cell(45,5,'Date',1,1,'C',$fill);
 
     //row3
-    $this->Cell(25,5,'Customer Name',1,0,'L',$fill);
+    $this->Cell(15,5,'Name',1,0,'L',$fill);
     $this->Cell(65,5,$this->cninfo['InOmCompanyName'],1,0,'C');
-    $this->Cell(40,5,$this->cninfo['cnmId'],1,0,'C');
-    $this->Cell(40,5,date('d-m-Y h:i a', strtotime($this->cninfo['CnmCreatedOn'])),1,1,'C');
+    $this->Cell(45,5,$this->cninfo['cnmId'],1,0,'C');
+    $this->Cell(45,5,date('d-m-Y h:i a', strtotime($this->cninfo['CnmCreatedOn'])),1,1,'C');
 
     //row4
-    $this->Cell(25,5,'Address',1,0,'L',$fill);
+    $this->Cell(15,5,'Address',1,0,'L',$fill);
     $this->Cell(65,5,$this->cninfo['InOmAdd'],1,0,'C');
-    $this->Cell(40,5,'Customer ID',1,0,'C',$fill);
-    $this->Cell(40,5,'Invoice #',1,1,'C',$fill);
+    $this->Cell(45,5,'Customer ID',1,0,'C',$fill);
+    $this->Cell(45,5,'Invoice #',1,1,'C',$fill);
 
     //row5
-    $this->Cell(25,5,'Phone',1,0,'L',$fill);
+    $this->Cell(15,5,'Phone',1,0,'L',$fill);
     $this->Cell(65,5,$this->cninfo['InOmTel1'],1,0,'C');
-    $this->Cell(40,5,$this->cninfo['CnmCompanyCode'],1,0,'C');
+    $this->Cell(45,5,$this->cninfo['CnmCompanyCode'],1,0,'C');
     // $this->Cell(40,5,date('d-m-Y', strtotime($this->cninfo['inDueDate'])),1,1,'C');
-    $this->Cell(40,5,$this->cninfo['cnmInId'],1,1,'C');
+    $this->Cell(45,5,$this->cninfo['cnmInId'],1,1,'C');
 
     //row6
-    $this->Cell(25,5,'Phone 2',1,0,'L',$fill);
+    $this->Cell(15,5,'Phone 2',1,0,'L',$fill);
     $this->Cell(65,5,$this->cninfo['InOmTel2'],1,0,'C');
-    $this->Cell(80,5,'VAT Registration #',1,1,'C',$fill);
+    $this->Cell(90,5,'VAT Registration #',1,1,'C',$fill);
 
     //row7
     $this->Cell(25,5,'LPO No:',1,0,'L',$fill);
@@ -106,8 +106,8 @@ class CNPDF extends FPDF
       $this->Cell($headerwidth[3],6,$row['CniLeftQty'],1,0,'C',$fill);
       $this->Cell($headerwidth[4],6,$row['CniRightQty'],1,0,'C',$fill);
       $this->Cell($headerwidth[5],6,$row['CniTotalQty'],1,0,'C',$fill);
-      $this->Cell($headerwidth[6],6,$row['CniPrice'],1,0,'C',$fill);
-      $this->Cell($headerwidth[7],6,$amount,1,0,'C',$fill);
+      $this->Cell($headerwidth[6],6,$row['CniPrice'],1,0,'R',$fill);
+      $this->Cell($headerwidth[7],6,$amount,1,0,'R',$fill);
       $this->SetFontSize(10);
       $this->Ln();
       $totalAmount += $amount; //$amount is amount for each item. added on to totalAmount for sum.
