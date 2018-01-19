@@ -30,6 +30,8 @@ $(document).ready(function()
     	//To check that, I can check if #order_num has value set to it.
 		$(this).attr("disabled","disabled");
     	console.log("clicked");
+    	var totamount = $('#total_amount').val();
+    	totamount = +totamount;
     	if(order_id == ""){
     		//This means order is not saved yet.
     		//show msge to user to save the order first.
@@ -43,7 +45,7 @@ $(document).ready(function()
     	}else if(inv_id !=""){
 			//this means Invoice already made. dont create any more errors by pressing make invoice.
 
-		}else{
+		}else if(totamount>0.00){
     		//this means order_id is set.
     		//now i need to use this number to make invoice
 
@@ -91,6 +93,9 @@ $(document).ready(function()
 	        	$(this).removeAttr("disabled");
 
 	        }});
+    	}
+    	else{
+    		alert("CANNOT MAKE INVOICE WITH 0 ITEMS");
     	}
     });
 });

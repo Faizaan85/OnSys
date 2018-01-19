@@ -133,7 +133,7 @@
 	        <div class="col-sm-2 col-md-2 col-lg-2" style="top: 25px;">
 	            	<input type="button" id="save" class="btn btn-info form-control" value="Save (F2)">
 	        </div>
-		<?php else: ?> <!--- this is edit mode --->
+		<?php else: ?> <!-- this is edit mode -->
 			<div class="col-sm-2 col-md-2 col-lg-2" style="top: 25px;">
 				<?php if($orderinfo['InId']==""): ?>
 					<input type="button" id="cancel_new" class="btn btn-danger form-control" value="Cancel / New">
@@ -146,12 +146,12 @@
 				<?php if($orderinfo['InId']==""): ?>
 					<input type="button" id="make_invoice" class="btn btn-primary form-control" value="Make Invoice" >
 				<?php else: ?>
-					<input type="button" id="make_invoice" class="btn btn-primary form-control" value="Make Return" disabled> <!--- DISABLED FOR NOW --->
+					<input type="button" id="make_invoice" class="btn btn-primary form-control" value="Make Return" disabled> <!-- DISABLED FOR NOW -->
 
 				<?php endif; ?>
 	        </div>
 	        <div class="col-sm-2 col-md-2 col-lg-2" style="top: 25px;">
-	            <input type="button" id="save" class="btn btn-info form-control" value="Edit" disabled> <!--- DISABLED FOR NOW --->
+	            <input type="button" id="save" class="btn btn-info form-control" value="Edit" disabled> <!-- DISABLED FOR NOW -->
 	        </div>
 		<?php endif; ?>
 	        <div class="col-sm-2 col-md-2 col-lg-2">
