@@ -96,7 +96,7 @@ class Return_model extends CI_Model {
 	{
 		$this->db->select('cnmInId');
 		$query = $this->db->get_where('creditnotemaster_user_client',array('cnmId'=>$cn_id));
-		$result = $query->row_array();
+		$result = $query->row_array();//this will return first row. Doesnt matter cause all rows will have same info.
 		if(isset($result))
 		{
 			return $result;
@@ -105,8 +105,14 @@ class Return_model extends CI_Model {
 			return $this->db->error();
 		}
 	}
-	public function get_inv_credit_notes($inv_id)
+	public function find_credit_notes($inv_id)
 	{
+		// function to find and return array of credit notes.
+		// there can be more than 1 credit note for 1 invoice. 
+		$this->db->select('cnmId');
+		$query = $this->db->get_where('creditnotemaster_user_client',array('cnmInId'=>$inv_id));
+		$result= $query->result_array();//this will return arry with 1 column. multiple rows possible.
+		
 		
 	}
 

@@ -245,7 +245,7 @@ class Returns extends CI_Controller{
       // And, order items
     $data['orderitems'] = $this->order_model->get_order($order_id);
       // Fourth, Now the tough part. Need list of credit notes
-
+    
 	  
    //  $data['invinfo'] = $this->order_model;
 	  // $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
@@ -258,7 +258,5 @@ class Returns extends CI_Controller{
 	  $this->load->view('templates/header',$data);
 	  $this->load->view('pages/v_o_i_cns.php');
 	  $this->load->view('templates/footer');
-
   }
-
 }
