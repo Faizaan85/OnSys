@@ -249,23 +249,26 @@ class Returns extends CI_Controller{
 		$data['orderitems'] = $this->order_model->get_order($order_id);
 		// Fourth, Now the tough part. Need list of credit notes
 		$cr_notes = $this->return_model->find_credit_notes($invoice_id);
+		$cr_notes_items;
 		foreach($cr_notes as $key => $value)
 		{
-			echo($cr_notes[$key]['cnmId']);
-			echo("<br>");
+			
+			$cr_num = $value['cnmId'];
+			$cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
 		}
+		$data['cr_notes'] = $cr_notes;
+		$data['cr_notes_items'] = $cr_notes_items;	  
 	  
-	  
-   //  $data['invinfo'] = $this->order_model;
-	  // $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
-	  // $data['items'] = $this->return_model->get_credit_note_items($cn_id);
-	  $data['title'] = "Credit Note View";
-	  $jslist = array("custom_functions.js","v_o_i_cns.js");
-	  $data['jslist'] = $jslist;
-	  $data['autorefresh'] = FALSE;
+		//  $data['invinfo'] = $this->order_model;
+		// $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
+		// $data['items'] = $this->return_model->get_credit_note_items($cn_id);
+		$data['title'] = "Credit Note View";
+		$jslist = array("custom_functions.js","v_o_i_cns.js");
+		$data['jslist'] = $jslist;
+		$data['autorefresh'] = FALSE;
 
-	  $this->load->view('templates/header',$data);
-	  $this->load->view('pages/v_o_i_cns.php');
-	  $this->load->view('templates/footer');
+		$this->load->view('templates/header',$data);
+		$this->load->view('pages/v_o_i_cns.php');
+		$this->load->view('templates/footer');
   }
 }
