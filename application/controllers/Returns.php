@@ -226,34 +226,34 @@ class Returns extends CI_Controller{
     $pdf->Output('F',$location.$cnNo.'-'.date("Ymd-his").'.pdf',true);
     $pdf->Output('D','CN-'.$cnNo.'.pdf',true);
   }
-  public function view_credit_note($cn_id=0)
-  {
-	  $this->load->model('return_model');
-      // First, we need to get the invoice number of the credit note.
-	  $invoice_id = $this->return_model->get_invoiceid($cn_id);
-	  if(!array_key_exists('cnmInId',$invoice_id))
-	  {
-		echo("ErrorDocument 404");
-		die;
-	  }
-	  $invoice_id = $invoice_id['cnmInId'];
-      // Second, we need to get the invoice itself
-	  $this->load->model('order_model');
-	  $data['invinfo'] = $this->order_model->get_invoices($invoice_id);
-      // And, invoice items
-	  $data['invitems'] = $this->order_model->get_invoice_items($invoice_id);
-      // Third, we need to get the Order
-	  $order_id = $data['invinfo']['InOmId'];    
-	  $data['orderinfo'] = $this->order_model->get_orders($order_id);
-      // And, order items
-      $data['orderitems'] = $this->order_model->get_order($order_id);
-      // Fourth, Now the tough part. Need list of credit notes
-	  $cr_notes = $this->return_model->find_credit_notes($invoice_id);
-		  foreach($cr_notes as $key => $value)
-		  {
-			  echo($cr_notes[$key]['cnmId']);
-			  echo("<br>");
-		  }
+	public function view_credit_note($cn_id=0)
+  	{
+		$this->load->model('return_model');
+		// First, we need to get the invoice number of the credit note.
+		$invoice_id = $this->return_model->get_invoiceid($cn_id);
+		if(!array_key_exists('cnmInId',$invoice_id))
+		{
+			echo("ErrorDocument 404");
+			die;
+		}
+		$invoice_id = $invoice_id['cnmInId'];
+		// Second, we need to get the invoice itself
+		$this->load->model('order_model');
+		$data['invinfo'] = $this->order_model->get_invoices($invoice_id);
+		// And, invoice items
+		$data['invitems'] = $this->order_model->get_invoice_items($invoice_id);
+		// Third, we need to get the Order
+		$order_id = $data['invinfo']['InOmId'];    
+		$data['orderinfo'] = $this->order_model->get_orders($order_id);
+		// And, order items
+		$data['orderitems'] = $this->order_model->get_order($order_id);
+		// Fourth, Now the tough part. Need list of credit notes
+		$cr_notes = $this->return_model->find_credit_notes($invoice_id);
+		foreach($cr_notes as $key => $value)
+		{
+			echo($cr_notes[$key]['cnmId']);
+			echo("<br>");
+		}
 	  
 	  
    //  $data['invinfo'] = $this->order_model;
