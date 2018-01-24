@@ -32,10 +32,9 @@ class Item_model extends CI_Model
     	{
     		$query = $this->db->query(' Select PART_NO, SSNO, CO_NAME, EQUIPMENT, `DESC`, SALES_PRIC, QTY_HAND, QTY_ORDER, UNIT_COST from item where PART_NO LIKE "%'.$value .'%" OR SSNO LIKE "%'.$value .'%" OR `DESC` LIKE "%'.$value .'%" OR CO_NAME LIKE "%'.$value .'%" OR REMARK LIKE "%'.$value .'%" order by PART_NO ASC');
     		return $query->result_array();
-
     	}
-
     }
+
 }
 /*
  * To change this license header, choose License Headers in Project Properties.

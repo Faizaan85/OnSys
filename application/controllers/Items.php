@@ -53,6 +53,7 @@ class Items extends CI_Controller
         $this->load->view('pages/item_search');
         $this->load->view('templates/footer');
     }
+
 }
 
 /*
