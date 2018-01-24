@@ -8,6 +8,16 @@
 	$cr_notes_items
 
  -->
+ <?php
+	if(!isset($invinfo))
+	{
+		$invinfo = "";
+	}
+	if(!isset($cr_notes))
+	{
+		$cr_notes = "";
+	}
+ ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-sm-6 col-md-6 col-lg-6">
@@ -19,33 +29,33 @@
 				</thead>
 				<tr>
 					<td><strong>Name :</strong></td>
-					<td><label><?php echo($invinfo['InOmCompanyName']);?></label></td>
+					<td><label><?php echo($invinfo=="" ? $orderinfo['OmCompanyName'] : $invinfo['InOmCompanyName']);?></label></td>
 					<td><strong>Order # :</strong></td>
 					<td><label><?php echo($orderinfo['OmId']);?></label></td>
 				</tr>
 				<tr>
 					<td><strong>Code :</strong></td>
-					<td><label ><?php echo($invinfo['InOmCompanyCode']);?></label></td>
+					<td><label ><?php echo($invinfo=="" ? $orderinfo['OmCompanyCode'] : $invinfo['InOmCompanyCode']);?></label></td>
 					<td><strong>Order Date :</strong></td>
 					<td><label><?php echo($orderinfo['OmCreatedOn']); ?></label></td>
 				</tr>
 				<tr>
 					<td><strong>Address :</strong></td>
-					<td><label><?php echo($invinfo['InOmAdd']);?></label></td>
+					<td><label><?php echo($invinfo=="" ? $orderinfo['OmAdd'] : $invinfo['InOmAdd']);?></label></td>
 					<td><strong>Invoice # :</strong></td>
-					<td><label><?php echo($invinfo['InId']);?></label></td>
+					<td><label><?php echo($invinfo=="" ? '--' : $invinfo['InId']);?></label></td>
 				</tr>
 				<tr>
 					<td><strong>Telephone 1:</strong></td>
-					<td><label><?php echo($invinfo['InOmTel1']);?></label></td>
+					<td><label><?php echo($invinfo=="" ? $orderinfo['OmTel1'] : $invinfo['InOmTel1']);?></label></td>
 					<td><strong>Credit Notes :</strong></td>
-					<td><label><?php echo(sizeof($cr_notes));?></label></td>
+					<td><label><?php echo($cr_notes=="" ? "0" : sizeof($cr_notes));?></label></td>
 				</tr>
 				<tr>
 					<td><strong>VAT # :</strong></td>
-					<td><label><?php echo($invinfo['ClVatNo']);?></label></td>
+					<td><label><?php echo($invinfo=="" ? $orderinfo['ClVatNo'] : $invinfo['ClVatNo']);?></label></td>
 					<td><strong>LPO :</strong></td>
-					<td><label><?php echo($invinfo['InOmLpo']);?></label></td>
+					<td><label><?php echo($invinfo=="" ? $orderinfo['OmLpo'] : $invinfo['InOmLpo']);?></label></td>
 				</tr>
 			</table>
 		</div>
@@ -55,15 +65,20 @@
 			<ul>
 				<!-- there can only be 1 order and 1 invoice
 				so there is no need to set id/href as order_{ordernumber} or invoice_{invoicenumber} -->
-				<li><a href='#order'> 
-				Order-<?php echo($orderinfo['OmId']);  ?></a></li>
+				<li><a href='#order'>Order-<?php echo($orderinfo['OmId']);  ?></a></li>
+				<?php if($invinfo!=""): ?>
 				<li><a href='#invoice'>Invoice-<?php echo($invinfo['InId']);?></a></li>
+
 				<!--  php loop for n credit notes -->
-				<?php 
-				foreach($cr_notes as $key => $value)
+				<?php
+				endif; 
+				if($cr_notes!="")
 				{
-					$cr_num = $value['cnmId'];
-					echo('<li><a href="#cr_'.$cr_num.'">CrNote:'.$cr_num.'</a></li>');
+					foreach($cr_notes as $key => $value)
+					{
+						$cr_num = $value['cnmId'];
+						echo('<li><a href="#cr_'.$cr_num.'">CrNote:'.$cr_num.'</a></li>');
+					}
 				}
 				?>
 				
@@ -135,7 +150,7 @@
 							<td></td>
 							<td></td>
 							<td></td>
-							<td>VAT <?php echo($invinfo['InVatPercent']); ?>%:</td>
+							<td>VAT <?php echo($invinfo=="" ? "5" : $invinfo['InVatPercent']); ?>%:</td>
 							<td  style="text-align: right;" >
 								<?php $vatamt = $amount*.05; 
 									echo(number_format($vatamt,2));
@@ -159,6 +174,7 @@
 					</tbody>
     			</table>
 			</div>
+			<?php if($invinfo!=""): ?>
 			<div id="invoice">
 				<!-- php loop for invoice table -->
 				<table class="table table-striped table-bordered">
@@ -250,8 +266,13 @@
 					</tbody>
 				</table>
 			</div>
+
 			<!-- php loop for table for n credit notes -->
-			<?php foreach($cr_notes as $key => $value): 
+			<?php
+			endif; 
+			if($cr_notes!=""):
+			
+				foreach($cr_notes as $key => $value): 
 				$cr_num = $value['cnmId'];	
 			?>
 				<div id='cr_<?php echo($cr_num);?>'>
@@ -348,7 +369,8 @@
 					</tbody>
 					</table>
 				</div>
-			<?php endforeach; ?>
+			<?php endforeach;
+				endif; ?>
 		</div>
 	</div>
 </div>

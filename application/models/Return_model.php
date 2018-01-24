@@ -112,7 +112,7 @@ class Return_model extends CI_Model {
 		$this->db->select('cnmId');
 		$query = $this->db->get_where('creditnotemaster_user_client',array('cnmInId'=>$inv_id));
 		$result= $query->result_array();//this will return arry with 1 column. multiple rows possible.
-		if(isset($result))
+		if($result)
 		{
 			return $result;
 		}

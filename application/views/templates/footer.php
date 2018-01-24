@@ -10,13 +10,13 @@
         var url=$base_url;
         switch(found){
             case "cn-":
-                url = url+"returns/view_credit_note/"+str;
+                url = url+"view/return/"+str;
                 break;
             case "i-":
-                url = url+"invoice/"+str;
+                url = url+"view/invoice/"+str;
                 break;
             case "o-":
-                url = url+"order/"+str+"/print";
+                url = url+"view/order/"+str;
                 break;
             default:
                 url = "http://192.168.2.100/jquery_sandbox/item_search1.php";

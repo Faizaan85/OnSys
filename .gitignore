@@ -1,4 +1,6 @@
 */config/development
+/application/config/database.php
+.htaccess
 */logs/log-*.php
 !*/logs/index.html
 */cache/*

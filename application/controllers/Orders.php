@@ -457,19 +457,138 @@ class Orders extends CI_Controller
 		// echo ('Order saved :'.$orderNumber);
 
 	}
-	public function view_invoice($inv_id=0)
+	public function view_order($order_id=0)
 	{
+		//Here I will have to go order, invoice, crnotes
 		$this->load->model('order_model');
-		$data['invoiceinfo'] = $this->order_model->get_invoices($inv_id);
-		$data['items'] = $this->order_model->get_invoice_items($inv_id);
-		$data['title'] = "Invoice View";
-		$jslist =array("custom_functions.js");
+		$this->load->model('return_model');
+		$orderinfo = $this->order_model->get_orders($order_id);
+		if($this->checkDbError($orderinfo))
+		{
+			if($orderinfo['code']==0)
+			{
+				show_error("Order Not Found", 404, "No Order");
+				die();
+			}
+			else
+			{
+				show_error($orderinfo['message'], 404, $orderinfo['code']);
+				die();
+			}
+		}
+		else
+		{
+			$orderitems = $this->order_model->get_order($order_id);
+		}
+		//now lets get invoice
+		$invoice_id = $orderinfo['InId'];
+		if($invoice_id!='')
+		{
+			$invinfo = $this->order_model->get_invoices($invoice_id);
+			$invitems = $this->order_model->get_invoice_items($invoice_id);
+			$cr_notes = $this->return_model->find_credit_notes($invoice_id);
+			if($this->checkDbError($cr_notes)==false)
+			{
+				$cr_notes_items;
+				foreach($cr_notes as $key => $value)
+				{
+					
+					$cr_num = $value['cnmId'];
+					$cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
+				}
+				$data['cr_notes'] = $cr_notes;
+				$data['cr_notes_items'] = $cr_notes_items;
+			}	  
+			$data['invinfo'] = $invinfo;
+			$data['invitems'] = $invitems;
+		}
+		$data['orderinfo'] = $orderinfo;
+		$data['orderitems'] = $orderitems;
+		
+		$data['title'] = "Order View";
+		$jslist = array("custom_functions.js","v_o_i_cns.js");
 		$data['jslist'] = $jslist;
-		$data['autorefresh']=FALSE;
+		$data['autorefresh'] = FALSE;
+		
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/v_invoice');
+		$this->load->view('templates/header',$data);
+		$this->load->view('pages/v_o_i_cns.php');
 		$this->load->view('templates/footer');
+	}
+	public function view_invoice($invoice_id=0)
+	{
+		//Because I already have Invoice id, I can jump to step 2. 
+		// Second, we need to get the invoice itself
+		$this->load->model('order_model');
+		$this->load->model('return_model');
+		$data['invinfo'] = $this->order_model->get_invoices($invoice_id);
+		if($this->checkDbError($data['invinfo']))
+		{
+			if($data['invinfo']['code']==0)
+			{
+				show_error("Invoice Not Found",404,"No Invoice.");
+			}
+			else
+			{
+				show_error($data['invinfo']['message'], 404, $data['invinfo']['code']);
+				die();
+			}
+
+		}
+		
+		// And, invoice items
+		$data['invitems'] = $this->order_model->get_invoice_items($invoice_id);
+		// Third, we need to get the Order
+		$order_id = $data['invinfo']['InOmId'];    
+		$data['orderinfo'] = $this->order_model->get_orders($order_id);
+		// And, order items
+		$data['orderitems'] = $this->order_model->get_order($order_id);
+		// Fourth, Now the tough part. Need list of credit notes
+		$cr_notes = $this->return_model->find_credit_notes($invoice_id);
+		
+		if(array_key_exists('code',$cr_notes))
+		{
+			//means there was an error of some kind
+			//ignore with creditnotes and its items. 
+			
+		}
+		else
+		{
+			$cr_notes_items;
+
+			foreach($cr_notes as $key => $value)
+			{
+				
+				$cr_num = $value['cnmId'];
+				$cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
+			}
+			$data['cr_notes'] = $cr_notes;
+			$data['cr_notes_items'] = $cr_notes_items;
+		}	  
+	  
+		//  $data['invinfo'] = $this->order_model;
+		// $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
+		// $data['items'] = $this->return_model->get_credit_note_items($cn_id);
+		$data['title'] = "Invoice View";
+		$jslist = array("custom_functions.js","v_o_i_cns.js");
+		$data['jslist'] = $jslist;
+		$data['autorefresh'] = FALSE;
+		
+
+		$this->load->view('templates/header',$data);
+		$this->load->view('pages/v_o_i_cns.php');
+		$this->load->view('templates/footer');
+	}
+	private function checkDbError($Ar)
+	{
+		if(array_key_exists('code',$Ar))
+		{
+				return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }

@@ -248,17 +248,26 @@ class Returns extends CI_Controller{
 		// And, order items
 		$data['orderitems'] = $this->order_model->get_order($order_id);
 		// Fourth, Now the tough part. Need list of credit notes
-		$cr_notes = $this->return_model->find_credit_notes($invoice_id);
-		$cr_notes_items;
-		foreach($cr_notes as $key => $value)
+    $cr_notes = $this->return_model->find_credit_notes($invoice_id);
+    if(array_key_exists('code',$cr_notes))
 		{
+			//means there was an error of some kind
+			//ignore with creditnotes and its items. 
 			
-			$cr_num = $value['cnmId'];
-			$cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
 		}
-		$data['cr_notes'] = $cr_notes;
-		$data['cr_notes_items'] = $cr_notes_items;	  
-	  
+		else
+		{
+			$cr_notes_items;
+
+			foreach($cr_notes as $key => $value)
+			{
+				
+				$cr_num = $value['cnmId'];
+				$cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
+			}
+			$data['cr_notes'] = $cr_notes;
+			$data['cr_notes_items'] = $cr_notes_items;
+		}	  
 		//  $data['invinfo'] = $this->order_model;
 		// $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
 		// $data['items'] = $this->return_model->get_credit_note_items($cn_id);

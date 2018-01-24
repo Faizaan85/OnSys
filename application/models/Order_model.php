@@ -205,4 +205,5 @@
             $query = $this->db->get_where('invoiceitems', array('IiInId'=>$inid));
             return $query->result_array();
         }
+        
     }

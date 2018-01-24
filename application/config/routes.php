@@ -61,6 +61,11 @@ $route['invoice/(:num)'] = 'orders/view_invoice/$1';
 
 
 $route['returns'] = 'returns/index';
+$route['view/invoice/(:num)'] = 'orders/view_invoice/$1';
+$route['view/order/(:num)'] = 'orders/view_order/$1';
+$route['view/return/(:num)'] = 'returns/view_credit_note/$1';
+
+
 // $route['neworder'] = 'orders/create_new_order';
 $route['neworder'] = 'orders/crud_sales_order/New';
 $route['neworder/(:num)/Edit'] = 'orders/crud_sales_order/Edit/$1';
