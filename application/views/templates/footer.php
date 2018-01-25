@@ -18,6 +18,10 @@
             case "o-":
                 url = url+"view/order/"+str;
                 break;
+			case "n-":
+				str = str.replace(" ","+");
+				url = url+"items/item_search?search="+str;
+				break;
             default:
                 url = "http://192.168.2.100/jquery_sandbox/item_search1.php";
         }

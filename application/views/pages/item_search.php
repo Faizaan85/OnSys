@@ -1,5 +1,6 @@
 <div class="container-fluid">
 	<div class="table-responsive">
+
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
@@ -17,7 +18,7 @@
 			<tbody id="resulttable">
 				<?php foreach($searchresults as $resultrow) :?>
 					<tr>
-						<td><?php echo $resultrow['PART_NO']; ?></td>
+						<td><a href="<?php echo(base_url()."items/item_history?item=".$resultrow['PART_NO']); ?>"><?php echo $resultrow['PART_NO']; ?></a></td>
 						<td><?php echo $resultrow['SSNO']; ?></td>
 						<td><?php echo $resultrow['CO_NAME']; ?></td>
 						<td><?php echo $resultrow['EQUIPMENT']; ?></td>
@@ -28,7 +29,6 @@
 						<td class="hidden"><?php echo $resultrow['UNIT_COST']; ?></td>
 					</tr>
 				<?php endforeach; ?>
-				
 			</tbody>
 		</table>
 	</div>

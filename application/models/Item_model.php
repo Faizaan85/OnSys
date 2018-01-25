@@ -34,6 +34,14 @@ class Item_model extends CI_Model
     		return $query->result_array();
     	}
     }
+    public function history($value="")
+    {
+        $query = $this->db->get_where('item_sales', array('Part_No' => $value));
+        $data['is'] = $query->result_array();
+        $query = $this->db->get_where('item_returns', array('Part_No' => $value));
+        $data['ir'] = $query->result_array();
+        return $data;
+    }
 
 }
 /*

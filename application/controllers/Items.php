@@ -2,13 +2,18 @@
 
 class Items extends CI_Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model('item_model');
+    }
     public function index()
     {
         // No idea what to do here.
     }
     public function get_part_details($partno)
     {
-        $this->load->model('item_model');
+
         $data['part'] = $this->item_model->get_partno_details($partno);
 		if(empty($data['part']))
 		{
@@ -24,7 +29,7 @@ class Items extends CI_Controller
     }
     public function get_last_price()
     {
-        $this->load->model('item_model');
+
         $data['part'] = $this->item_model->get_last_price();
         if(empty($data['part']))
 		{
@@ -40,9 +45,10 @@ class Items extends CI_Controller
     }
     public function item_search()
     {
-        $this->load->model('item_model');
-        $value = $this->input->post('search');
-        $value = str_replace(" ", "%", $value);
+
+        $value = $this->input->get('search');
+        $data['value'] = $value;
+        $value = str_replace("+", "%", $value);
         $data['searchresults'] = $this->item_model->search($value);
 
         $data['title'] = "Item Search";
@@ -52,6 +58,25 @@ class Items extends CI_Controller
         $this->load->view('templates/header',$data);
         $this->load->view('pages/item_search');
         $this->load->view('templates/footer');
+    }
+    public function item_history()
+    {
+        $value = $this->input->get('item');
+        $historyresult = $this->item_model->history($value);
+        // echo("is:{$value} <br>");
+        // print_r($historyresult);
+        $data['item_sales'] = $historyresult['is'];
+        $data['item_returns'] = $historyresult['ir'];
+        $data['title'] = "Item History";
+        $jslist =array("item_history.js");
+        $data['jslist'] = $jslist;
+        $data['autorefresh']=FALSE;
+
+        $this->load->view('templates/header',$data);
+        $this->load->view('pages/item_history');
+        $this->load->view('templates/footer');
+
+        // $data['searchresult'] = $this->item_model
     }
 
 }
