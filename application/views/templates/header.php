@@ -46,7 +46,7 @@
 	</script>
 
 	<?php if (isset($varsdefined['jslist'])):
-	
+
 		foreach($jslist as $js): ?>
 			<script type="text/javascript" src="<?php echo base_url();?>assets/js/<?php echo $js;?>"></script>
 		<?php endforeach;
@@ -116,7 +116,7 @@
 
     </style>
 
-    <script>
+    <script type="text/javascript">
     shortcut.add("Shift++", function()
     {
         window.location.replace("neworder");
@@ -128,6 +128,24 @@
     {
         $("#search").focus();
     });
+	function Search()
+	{
+		var str = $('#search').val();
+		var changedURL = change_url(str);
+		var url = "";
+		if(changedURL == "http://192.168.2.100/jquery_sandbox/item_search1.php")
+		{
+			url = changedURL;
+		}
+		else
+		{
+			url = $base_url + changedURL;
+		}
+
+		//console.log(url);
+        $('#frm_search').attr("action",url);
+        $('#frm_search').submit();
+	}
     </script>
 
 	<!--[if lt IE 9]>
@@ -168,9 +186,9 @@
                     	<!-- <select name="search_options" id="sel_search_opt">
                     		<option value="http://192.168.2.100/jquery_sandbox/item_search1.php">Old Data</option>
                     	</select> -->
-                        <input type="text" id="search" name="search_no1" class="form-control" placeholder="Search Order (F1)">
+                        <input type="text" id="search" name="search_no1" class="form-control" placeholder="Search Order (F1)" onKeydown="Javascript: if (event.keyCode==13) Search();">
                     </div>
-                        <button type="button" id="btnsubmit" class="btn btn-default" >Submit</button>
+                        <button type="button" id="btnsubmit" class="btn btn-default" onClick="Search();" >Submit</button>
                 </form>
                 <ul class="nav navbar-nav">
                 	<li><a href="<?php echo base_url()?>returns" accesskey="r">Returns</a></li>
