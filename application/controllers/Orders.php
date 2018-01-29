@@ -5,6 +5,7 @@ class PDF extends FPDF
 	// Page header
 	var $oinfo;
 	var $pdf_type;
+	var $tAmount=0.00;
 	function setRows($data)
 	{
 		$this->oinfo = $data;
@@ -47,10 +48,15 @@ class PDF extends FPDF
 
 		//row3
 		$this->Cell(15,5,'Name',1,0,'L',$fill);
-		$this->Cell(65,5,$this->oinfo['InOmCompanyName'],1,0,'L');
+		$X = $this->GetX();
+		$Y = $this->GetY();
+		$this->MultiCell(65,5,$this->oinfo['InOmCompanyName'],1,'L');
+		$Y2 = $this->GetY();
+		$this->SetXY($X+65,$Y);
 		$this->Cell(45,5,$this->oinfo['InId'],1,0,'C');
 		$this->Cell(45,5,date('d-m-Y h:i a', strtotime($this->oinfo['InCreatedOn'])),1,1,'C');
-
+		$this->SetXY($X-15,$Y2);
+		// $this->Ln();
 		//row4
 		$this->Cell(15,5,'Address',1,0,'L',$fill);
 		$this->Cell(65,5,$this->oinfo['InOmAdd'],1,0,'L');
@@ -132,9 +138,11 @@ class PDF extends FPDF
 			$this->SetFontSize(10);
 			$this->Ln();
 			$totalAmount += $amount; //$amount is amount for each item. added on to totalAmount for sum.
+			$this->tAmount = $totalAmount;
 	        $fill = !$fill;
 			$rc += 1;
 	    }
+
 		// $this->Ln();
 		// $this->Cell(85);
 		// $this->Cell(45,6,"Total Amount (AED): ",1,0,'R',$fill);
@@ -167,7 +175,12 @@ class PDF extends FPDF
 		$this->SetFillColor(217,217,217);
 		$fill = true;
 
-		$this->Cell(95);
+		// $this->Cell(30,6,$this->tAmount,1,0,'R',$fill);
+		// $this->Cell(65);
+		//Above 2 lines were experimental, can replace the oinfo[inamount] to $his->tAmount for per page Item Sum.
+
+		$this->Cell(50,6,"Receivers Signature",1,0,'C',$fill);
+		$this->Cell(45);
 		$this->Cell(45,6,"Total Amount (AED): ",1,0,'R',$fill);
 		$this->Cell(30,6,$this->oinfo['InAmount'],1,0,'R',$fill);
 		$this->Ln();
@@ -449,6 +462,7 @@ class Orders extends CI_Controller
 		$pdf->setLeftMargin(30);
 		$pdf->setRows($oinfo);
 		$pdf->AddPage();
+		$pdf->SetAutoPageBreak(true, 50.00);
 		$pdf->InvoiceTable($items);
 		date_default_timezone_set("Asia/Muscat");
 		$pdf->Output('F',$location.$inv_id.'-'.date("Ymd-his").'.pdf',true);
@@ -492,24 +506,24 @@ class Orders extends CI_Controller
 				$cr_notes_items;
 				foreach($cr_notes as $key => $value)
 				{
-					
+
 					$cr_num = $value['cnmId'];
 					$cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
 				}
 				$data['cr_notes'] = $cr_notes;
 				$data['cr_notes_items'] = $cr_notes_items;
-			}	  
+			}
 			$data['invinfo'] = $invinfo;
 			$data['invitems'] = $invitems;
 		}
 		$data['orderinfo'] = $orderinfo;
 		$data['orderitems'] = $orderitems;
-		
+
 		$data['title'] = "Order View";
 		$jslist = array("custom_functions.js","v_o_i_cns.js");
 		$data['jslist'] = $jslist;
 		$data['autorefresh'] = FALSE;
-		
+
 
 		$this->load->view('templates/header',$data);
 		$this->load->view('pages/v_o_i_cns.php');
@@ -517,7 +531,7 @@ class Orders extends CI_Controller
 	}
 	public function view_invoice($invoice_id=0)
 	{
-		//Because I already have Invoice id, I can jump to step 2. 
+		//Because I already have Invoice id, I can jump to step 2.
 		// Second, we need to get the invoice itself
 		$this->load->model('order_model');
 		$this->load->model('return_model');
@@ -535,22 +549,22 @@ class Orders extends CI_Controller
 			}
 
 		}
-		
+
 		// And, invoice items
 		$data['invitems'] = $this->order_model->get_invoice_items($invoice_id);
 		// Third, we need to get the Order
-		$order_id = $data['invinfo']['InOmId'];    
+		$order_id = $data['invinfo']['InOmId'];
 		$data['orderinfo'] = $this->order_model->get_orders($order_id);
 		// And, order items
 		$data['orderitems'] = $this->order_model->get_order($order_id);
 		// Fourth, Now the tough part. Need list of credit notes
 		$cr_notes = $this->return_model->find_credit_notes($invoice_id);
-		
+
 		if(array_key_exists('code',$cr_notes))
 		{
 			//means there was an error of some kind
-			//ignore with creditnotes and its items. 
-			
+			//ignore with creditnotes and its items.
+
 		}
 		else
 		{
@@ -558,14 +572,14 @@ class Orders extends CI_Controller
 
 			foreach($cr_notes as $key => $value)
 			{
-				
+
 				$cr_num = $value['cnmId'];
 				$cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
 			}
 			$data['cr_notes'] = $cr_notes;
 			$data['cr_notes_items'] = $cr_notes_items;
-		}	  
-	  
+		}
+
 		//  $data['invinfo'] = $this->order_model;
 		// $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
 		// $data['items'] = $this->return_model->get_credit_note_items($cn_id);
@@ -573,7 +587,7 @@ class Orders extends CI_Controller
 		$jslist = array("custom_functions.js","v_o_i_cns.js");
 		$data['jslist'] = $jslist;
 		$data['autorefresh'] = FALSE;
-		
+
 
 		$this->load->view('templates/header',$data);
 		$this->load->view('pages/v_o_i_cns.php');
