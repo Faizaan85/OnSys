@@ -4,7 +4,7 @@ require(APPPATH.'libraries/fpdf/fpdf.php');
 class CNPDF extends FPDF
 {
   var $cninfo;
-
+  var $tAmount = 0.00;
   function setRows($data)
   {
     $this->cninfo = $data;
@@ -29,9 +29,14 @@ class CNPDF extends FPDF
 
     //row3
     $this->Cell(15,5,'Name',1,0,'L',$fill);
-    $this->Cell(65,5,$this->cninfo['InOmCompanyName'],1,0,'C');
+    $X = $this->GetX();
+    $Y = $this->GetY();
+    $this->MultiCell(65,5,$this->cninfo['InOmCompanyName'],1,'L');
+    $Y2 = $this->GetY();
+    $this->SetXY($X+65,$Y);
     $this->Cell(45,5,$this->cninfo['cnmId'],1,0,'C');
     $this->Cell(45,5,date('d-m-Y h:i a', strtotime($this->cninfo['CnmCreatedOn'])),1,1,'C');
+    $this->SetXY($X-15,$Y2);
 
     //row4
     $this->Cell(15,5,'Address',1,0,'L',$fill);
@@ -111,7 +116,8 @@ class CNPDF extends FPDF
       $this->SetFontSize(10);
       $this->Ln();
       $totalAmount += $amount; //$amount is amount for each item. added on to totalAmount for sum.
-          $fill = !$fill;
+      $this->tAmount = $totalAmount;
+      $fill = !$fill;
       $rc += 1;
       }
   }
@@ -124,7 +130,9 @@ class CNPDF extends FPDF
     $this->SetFillColor(217,217,217);
     $fill = true;
 
-    $this->Cell(95);
+    // $this->Cell(95);
+    $this->Cell(50,6,"Receivers Signature",1,0,'C',$fill);
+    $this->Cell(45);
     $this->Cell(45,6,"Total Amount (AED): ",1,0,'R',$fill);
     $this->Cell(30,6,$this->cninfo['CnmAmount'],1,0,'R',$fill);
     $this->Ln();
@@ -158,7 +166,6 @@ class Returns extends CI_Controller{
     $this->load->view('templates/header', $data);
     $this->load->view('pages/returnslist');
     $this->load->view('templates/footer');
-
   }
   public function new_credit_note()
   {
@@ -226,58 +233,58 @@ class Returns extends CI_Controller{
     $pdf->Output('F',$location.$cnNo.'-'.date("Ymd-his").'.pdf',true);
     $pdf->Output('D','CN-'.$cnNo.'.pdf',true);
   }
-	public function view_credit_note($cn_id=0)
-  	{
-		$this->load->model('return_model');
-		// First, we need to get the invoice number of the credit note.
-		$invoice_id = $this->return_model->get_invoiceid($cn_id);
-		if(!array_key_exists('cnmInId',$invoice_id))
-		{
-			echo("ErrorDocument 404");
-			die;
-		}
-		$invoice_id = $invoice_id['cnmInId'];
-		// Second, we need to get the invoice itself
-		$this->load->model('order_model');
-		$data['invinfo'] = $this->order_model->get_invoices($invoice_id);
-		// And, invoice items
-		$data['invitems'] = $this->order_model->get_invoice_items($invoice_id);
-		// Third, we need to get the Order
-		$order_id = $data['invinfo']['InOmId'];    
-		$data['orderinfo'] = $this->order_model->get_orders($order_id);
-		// And, order items
-		$data['orderitems'] = $this->order_model->get_order($order_id);
-		// Fourth, Now the tough part. Need list of credit notes
-    $cr_notes = $this->return_model->find_credit_notes($invoice_id);
-    if(array_key_exists('code',$cr_notes))
-		{
-			//means there was an error of some kind
-			//ignore with creditnotes and its items. 
-			
-		}
-		else
-		{
-			$cr_notes_items;
+  public function view_credit_note($cn_id=0)
+  {
+      $this->load->model('return_model');
+      // First, we need to get the invoice number of the credit note.
+      $invoice_id = $this->return_model->get_invoiceid($cn_id);
+      if(!array_key_exists('cnmInId',$invoice_id))
+      {
+          echo("ErrorDocument 404");
+          die;
+      }
+      $invoice_id = $invoice_id['cnmInId'];
+      // Second, we need to get the invoice itself
+      $this->load->model('order_model');
+      $data['invinfo'] = $this->order_model->get_invoices($invoice_id);
+      // And, invoice items
+      $data['invitems'] = $this->order_model->get_invoice_items($invoice_id);
+      // Third, we need to get the Order
+      $order_id = $data['invinfo']['InOmId'];
+      $data['orderinfo'] = $this->order_model->get_orders($order_id);
+      // And, order items
+      $data['orderitems'] = $this->order_model->get_order($order_id);
+      // Fourth, Now the tough part. Need list of credit notes
+      $cr_notes = $this->return_model->find_credit_notes($invoice_id);
+      if(array_key_exists('code',$cr_notes))
+      {
+          //means there was an error of some kind
+          //ignore with creditnotes and its items.
 
-			foreach($cr_notes as $key => $value)
-			{
-				
-				$cr_num = $value['cnmId'];
-				$cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
-			}
-			$data['cr_notes'] = $cr_notes;
-			$data['cr_notes_items'] = $cr_notes_items;
-		}	  
-		//  $data['invinfo'] = $this->order_model;
-		// $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
-		// $data['items'] = $this->return_model->get_credit_note_items($cn_id);
-		$data['title'] = "Credit Note View";
-		$jslist = array("custom_functions.js","v_o_i_cns.js");
-		$data['jslist'] = $jslist;
-		$data['autorefresh'] = FALSE;
+      }
+      else
+      {
+          $cr_notes_items;
 
-		$this->load->view('templates/header',$data);
-		$this->load->view('pages/v_o_i_cns.php');
-		$this->load->view('templates/footer');
+          foreach($cr_notes as $key => $value)
+          {
+
+              $cr_num = $value['cnmId'];
+              $cr_notes_items[$cr_num] = $this->return_model->get_credit_note_items($cr_num);
+          }
+          $data['cr_notes'] = $cr_notes;
+          $data['cr_notes_items'] = $cr_notes_items;
+      }
+      //  $data['invinfo'] = $this->order_model;
+      // $data['cninfo'] = $this->return_model->get_credit_notes($cn_id);
+      // $data['items'] = $this->return_model->get_credit_note_items($cn_id);
+      $data['title'] = "Credit Note View";
+      $jslist = array("custom_functions.js","v_o_i_cns.js");
+      $data['jslist'] = $jslist;
+      $data['autorefresh'] = FALSE;
+
+      $this->load->view('templates/header',$data);
+      $this->load->view('pages/v_o_i_cns.php');
+      $this->load->view('templates/footer');
   }
 }

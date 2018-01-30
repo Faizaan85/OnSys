@@ -37,7 +37,7 @@ function addInvTab(t_label, data)
     //             <div class="col-sm-3 col-md-3 col-lg-3">
     //                 <label >Name:</label>
     //                 <span>${data.im.InOmCompanyName}</span>
-                        
+
     //             </div>
     //             <div class="col-sm-3 col-md-3 col-lg-3">
     //                 <label >LPO:</label>
@@ -107,16 +107,16 @@ function addInvTab(t_label, data)
     for (var item in data.ii)
     {
         inv_items = inv_items + '<tr>';
-        inv_items = inv_items + '<td > <input type="checkbox" value="item" value='+data.ii[item].IiId+' /></td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiPartNo+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiSupplierNo+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiDescription+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiLeftQty+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiRightQty+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiTotalQty+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiPrice+'</td>'; 
+        inv_items = inv_items + '<td > <input type="checkbox" value="item" value='+data.ii[item].IiId+' /></td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiPartNo+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiSupplierNo+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiDescription+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiLeftQty+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiRightQty+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiTotalQty+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiPrice+'</td>';
         inv_items = inv_items + '<td>'+ data.ii[item].IiOiAmount+'</td>';
-        inv_items = inv_items + '</tr>'; 
+        inv_items = inv_items + '</tr>';
         // console.log(item + ":"+ data.ii[item].IiOiPartNo);
 
         //console.log(data.ii[item]);
@@ -125,7 +125,7 @@ function addInvTab(t_label, data)
 
     $('#tabs').append(tab_inv+ inv_items+`
             </table>
-            
+
         </div>
     </div>`);
 	$( "#tabs" ).tabs('refresh');
@@ -146,16 +146,16 @@ function unhideTab(data)
     for (var item in data.ii)
     {
         inv_items = inv_items + '<tr class="loaded-data">';
-        inv_items = inv_items + '<td > <input type="checkbox" name="item" value='+data.ii[item].IiId+' /></td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiPartNo+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiSupplierNo+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiDescription+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiLeftQty+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiRightQty+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiTotalQty+'</td>'; 
-        inv_items = inv_items + '<td>'+ data.ii[item].IiOiPrice+'</td>'; 
+        inv_items = inv_items + '<td > <input type="checkbox" name="item" value='+data.ii[item].IiId+' /></td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiPartNo+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiSupplierNo+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiDescription+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiLeftQty+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiRightQty+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiTotalQty+'</td>';
+        inv_items = inv_items + '<td>'+ data.ii[item].IiOiPrice+'</td>';
         inv_items = inv_items + '<td>'+ data.ii[item].IiOiAmount+'</td>';
-        inv_items = inv_items + '</tr>'; 
+        inv_items = inv_items + '</tr>';
         // console.log(item + ":"+ data.ii[item].IiOiPartNo);
         $('#inv_table').append(inv_items);
         inv_items ="";
@@ -206,7 +206,7 @@ $(document).ready(function()
             // .always(function() {
             //     console.log("complete");
             // });
-            
+
     	})
     	.fail(function(reque,stat,error) {
     		console.log("error");
@@ -217,21 +217,21 @@ $(document).ready(function()
     		console.log("complete");
     	});
     });
-    
+
 
     $('#inv_next').on('click',function(){
         let return_items = '';
         $('.return-loaded-data').remove();
-        $.each($("input[name='item']:checked"), function(){ 
+        $.each($("input[name='item']:checked"), function(){
             let i = $(this).val();
-            
+
             for(var item in Invoice.ii)
             {
                 if(i == Invoice.ii[item].IiId)
                 {
                     return_items = return_items + '<tr id="'+Invoice.ii[item].IiId+'" class="return-loaded-data item-row">';
-                    return_items = return_items + '<td  id="part_'+i+'">'+ Invoice.ii[item].IiOiPartNo+'</td>'; 
-                    return_items = return_items + '<td id="ssno_'+i+'">'+ Invoice.ii[item].IiOiSupplierNo+'</td>'; 
+                    return_items = return_items + '<td  id="part_'+i+'">'+ Invoice.ii[item].IiOiPartNo+'</td>';
+                    return_items = return_items + '<td id="ssno_'+i+'">'+ Invoice.ii[item].IiOiSupplierNo+'</td>';
                     return_items = return_items + '<td id="desc_'+i+'">'+ Invoice.ii[item].IiOiDescription+'</td>';
 
                     if(Invoice.ii[item].IiOiLeftQty == "0")
@@ -239,7 +239,7 @@ $(document).ready(function()
                         return_items = return_items + '<td><input id="lqty_'+i+'" class="rtn_input" type="number" min="0" max="'+Invoice.ii[item].IiOiLeftQty+'"  value="'+ Invoice.ii[item].IiOiLeftQty+'"  data-iiid = "'+Invoice.ii[item].IiId+'" disabled/></td>';
                         //return_items = return_items + '<td>'+Invoice.ii[item].IiOiLeftQty+'</td>';
                     }else
-                    { 
+                    {
                         return_items = return_items + '<td><input id="lqty_'+i+'" class="rtn_input" type="number" min="0" max="'+Invoice.ii[item].IiOiLeftQty+'"  value="'+ Invoice.ii[item].IiOiLeftQty+'"  data-iiid = "'+Invoice.ii[item].IiId+'"/></td>';
                     }
                     if(Invoice.ii[item].IiOiRightQty == "0")
@@ -249,26 +249,26 @@ $(document).ready(function()
                     }else
                     {
 
-                        return_items = return_items + '<td><input id="rqty_'+i+'" class="rtn_input" type="number" min="0" max="'+Invoice.ii[item].IiOiRightQty+'"  value="'+ Invoice.ii[item].IiOiRightQty+'" data-iiid = "'+Invoice.ii[item].IiId+'"/></td>'; 
+                        return_items = return_items + '<td><input id="rqty_'+i+'" class="rtn_input" type="number" min="0" max="'+Invoice.ii[item].IiOiRightQty+'"  value="'+ Invoice.ii[item].IiOiRightQty+'" data-iiid = "'+Invoice.ii[item].IiId+'"/></td>';
                     }
                     if(Invoice.ii[item].IiOiLeftQty == "0" && Invoice.ii[item].IiOiRightQty == "0")
                     {
-                        return_items = return_items + '<td><input id="tqty_'+i+'" class="rtn_input" type="number" min="0" max="'+Invoice.ii[item].IiOiTotalQty+'"  value="'+ Invoice.ii[item].IiOiTotalQty+'" data-iiid = "'+Invoice.ii[item].IiId+'"/></td>'; 
+                        return_items = return_items + '<td><input id="tqty_'+i+'" class="rtn_input" type="number" min="0" max="'+Invoice.ii[item].IiOiTotalQty+'"  value="'+ Invoice.ii[item].IiOiTotalQty+'" data-iiid = "'+Invoice.ii[item].IiId+'"/></td>';
                     }else
                     {
                         return_items = return_items + '<td ><input id="tqty_'+i+'" class="rtn_input" type="number" min="0" max="'+Invoice.ii[item].IiOiTotalQty+'"  value="'+ Invoice.ii[item].IiOiTotalQty+'" data-iiid = "'+Invoice.ii[item].IiId+'" disabled/></td>';
                         // return_items = return_items + '<td>'+Invoice.ii[item].IiOiTotalQty +'</td>';
                     }
-                    return_items = return_items + '<td><input id="price_'+i+'" type="number" value="'+ Invoice.ii[item].IiOiPrice+'" disabled/></td>'; 
+                    return_items = return_items + '<td><input id="price_'+i+'" type="number" value="'+ Invoice.ii[item].IiOiPrice+'" disabled/></td>';
                     return_items = return_items + '<td><input id="amount_'+i+'" type="number" class="td-amount" value="'+ Invoice.ii[item].IiOiAmount+'" disabled/></td>';
-                    return_items = return_items + '</tr>'; 
+                    return_items = return_items + '</tr>';
                     // console.log(item + ":"+ Invoice.ii[item].IiOiPartNo);
                     $('#rtn_table').append(return_items);
                     return_items ="";
                 }
             }
             // return_items = return_items + $(this).html();
-            // return_items = return_items + '</tr>'; 
+            // return_items = return_items + '</tr>';
             // // console.log(item + ":"+ data.ii[item].IiOiPartNo);
             // $('#rtn_table').append(return_items);
             // return_items ="";
@@ -283,7 +283,7 @@ $(document).ready(function()
             <td></td>
             <td>Total Amount:</td>
             <td><input id="rtn_total" type="number" value="`+Invoice.im.InAmount+`" disabled/></td></tr>`;
-        return_items = return_items + `<tr class="return-loaded-data"> 
+        return_items = return_items + `<tr class="return-loaded-data">
             <td></td>
             <td></td>
             <td></td>
@@ -292,7 +292,7 @@ $(document).ready(function()
             <td></td>
             <td>Discount:</td>
             <td><input id="rtn_discount" type="number" value="0" disabled/></td></tr>`;
-        return_items = return_items + `<tr class="return-loaded-data"> 
+        return_items = return_items + `<tr class="return-loaded-data">
             <td></td>
             <td></td>
             <td></td>
@@ -301,7 +301,7 @@ $(document).ready(function()
             <td></td>
             <td>VAT `+Invoice.im.InVatPercent+`% :</td>
             <td><input id="rtn_vat_amount" type="number" value="`+Invoice.im.InVatAmount+`" disabled/></td></tr>`;
-        return_items = return_items + `<tr class="return-loaded-data"> 
+        return_items = return_items + `<tr class="return-loaded-data">
             <td></td>
             <td></td>
             <td></td>
@@ -363,10 +363,11 @@ $(document).ready(function()
 
     });
     $('#rtn_save').on('click',function(){
-        //ok, so now the fucking data collection starts,, 
+        //ok, so now the fucking data collection starts,,
         // lets create 2 objects.. not again
-        // 1st will be creditnotemaster data and 2nd for its items. 
-        // i need to have a better way for this fucking process,, 3rd time i'm doing this. 
+        // 1st will be creditnotemaster data and 2nd for its items.
+        // i need to have a better way for this fucking process,, 3rd time i'm doing this.
+		$(this).attr('Disabled','Disabled');
         var cn_master = {
             inv_id : Invoice.im.InId,
             company_code: Invoice.im.InOmCompanyCode,
@@ -422,10 +423,9 @@ $(document).ready(function()
             console.log("complete");
             console.log(cn_master);
         });
-        
-        
+
+
 
     });
-    
-});
 
+});

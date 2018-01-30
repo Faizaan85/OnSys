@@ -1,10 +1,10 @@
-<!-- 
+<!--
 	data needed:
 	$orderinfo
 	$orderitems
 	$invinfo
 	$invitems
-	$cr_notes 
+	$cr_notes
 	$cr_notes_items
 
  -->
@@ -71,7 +71,7 @@
 
 				<!--  php loop for n credit notes -->
 				<?php
-				endif; 
+				endif;
 				if($cr_notes!="")
 				{
 					foreach($cr_notes as $key => $value)
@@ -81,7 +81,7 @@
 					}
 				}
 				?>
-				
+
 			</ul>
 			<div id="order">
 				<!-- php loop for order table -->
@@ -100,8 +100,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php 
-						$i=1; 
+						<?php
+						$i=1;
 						$amount=0;
 						foreach($orderitems as $item):?>
 						<tr>
@@ -113,9 +113,9 @@
 							<td><?php echo $item['OiRightQty']; ?></td>
 							<td><?php echo $item['OiTotalQty']; ?></td>
 							<td><?php echo $item['OiPrice']; ?></td>
-							<td style="text-align: right;"><?php 
+							<td style="text-align: right;"><?php
 								$amount = $amount + ($item['OiTotalQty'] * $item['OiPrice']);
-								echo number_format($item['OiTotalQty'] * $item['OiPrice'],2); 
+								echo number_format($item['OiTotalQty'] * $item['OiPrice'],2);
 								$i++;
 								?></td>
 						</tr>
@@ -152,7 +152,7 @@
 							<td></td>
 							<td>VAT <?php echo($invinfo=="" ? "5" : $invinfo['InVatPercent']); ?>%:</td>
 							<td  style="text-align: right;" >
-								<?php $vatamt = $amount*.05; 
+								<?php $vatamt = ($amount - number_format($orderinfo['OmDiscount'],2)) *.05;
 									echo(number_format($vatamt,2));
 								?></td>
 						</tr>
@@ -166,7 +166,7 @@
 							<td></td>
 							<td><strong>Net Amount:</strong></td>
 							<td style="text-align: right;"><strong >
-							<?php 
+							<?php
 								$netamt = ($amount - $orderinfo['OmDiscount'])+$vatamt;
 								echo number_format($netamt,2);
 							?></strong></td>
@@ -192,8 +192,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php 
-							$i=1; 
+						<?php
+							$i=1;
 							$amount=0;
 						foreach($invitems as $item):?>
 						<tr>
@@ -205,9 +205,9 @@
 							<td><?php echo $item['IiOiRightQty']; ?></td>
 							<td><?php echo $item['IiOiTotalQty']; ?></td>
 							<td><?php echo $item['IiOiPrice']; ?></td>
-							<td style="text-align: right;"><?php 
+							<td style="text-align: right;"><?php
 								$amount = $amount + ($item['IiOiTotalQty'] * $item['IiOiPrice']);
-								echo number_format($item['IiOiTotalQty'] * $item['IiOiPrice'],2); 
+								echo number_format($item['IiOiTotalQty'] * $item['IiOiPrice'],2);
 								$i++;
 								?></td>
 						</tr>
@@ -244,7 +244,7 @@
 							<td></td>
 							<td>VAT <?php echo($invinfo['InVatPercent']); ?>%:</td>
 							<td  style="text-align: right;" data-vatamount="<?php echo($invinfo['InVatPercent']); ?>">
-								<?php $vatamt = $amount*.05; 
+								<?php $vatamt = $amount*.05;
 									echo(number_format($vatamt,2));
 								?></td>
 						</tr>
@@ -258,7 +258,7 @@
 							<td></td>
 							<td><strong>Net Amount:</strong></td>
 							<td style="text-align: right;"><strong >
-							<?php 
+							<?php
 								$netamt = ($amount - $invinfo['InDiscount'])+$vatamt;
 								echo number_format($netamt,2);
 							?></strong></td>
@@ -269,11 +269,11 @@
 
 			<!-- php loop for table for n credit notes -->
 			<?php
-			endif; 
+			endif;
 			if($cr_notes!=""):
-			
-				foreach($cr_notes as $key => $value): 
-				$cr_num = $value['cnmId'];	
+
+				foreach($cr_notes as $key => $value):
+				$cr_num = $value['cnmId'];
 			?>
 				<div id='cr_<?php echo($cr_num);?>'>
 					<table class="table table-striped table-bordered">
@@ -291,8 +291,8 @@
 							</tr>
 						</thead>
 						<tbody>
-						<?php 
-							$i=1; 
+						<?php
+							$i=1;
 							$amount=0;
 							$items = $cr_notes_items[$cr_num];
 
@@ -308,9 +308,9 @@
 							<td><?php echo $item['CniRightQty']; ?></td>
 							<td><?php echo $item['CniTotalQty']; ?></td>
 							<td><?php echo $item['CniPrice']; ?></td>
-							<td style="text-align: right;"><?php 
+							<td style="text-align: right;"><?php
 								$amount = $amount + ($item['CniTotalQty'] * $item['CniPrice']);
-								echo number_format($item['CniTotalQty'] * $item['CniPrice'],2); 
+								echo number_format($item['CniTotalQty'] * $item['CniPrice'],2);
 								$i++;
 								?></td>
 						</tr>
@@ -347,7 +347,7 @@
 							<td></td>
 							<td>VAT <?php echo($invinfo['InVatPercent']); ?>%:</td>
 							<td  style="text-align: right;">
-								<?php $vatamt = $amount*.05; 
+								<?php $vatamt = $amount*.05;
 									echo(number_format($vatamt,2));
 								?></td>
 						</tr>
@@ -361,13 +361,14 @@
 							<td></td>
 							<td><strong>Net Amount:</strong></td>
 							<td style="text-align: right;"><strong >
-							<?php 
+							<?php
 								$netamt = ($amount - 0.00)+$vatamt;
 								echo number_format($netamt,2);
 							?></strong></td>
 						</tr>
 					</tbody>
 					</table>
+          <a href="<?php echo(base_url()."returns/print_credit_note?cn_id=". $cr_num) ?>" class="btn btn-info">Print</a>
 				</div>
 			<?php endforeach;
 				endif; ?>
