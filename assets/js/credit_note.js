@@ -219,8 +219,10 @@ $(document).ready(function()
     });
 
 
+
     $('#inv_next').on('click',function(){
         let return_items = '';
+		let totAmt = 0.00, discount = 0.00, netAmt = 0.00, vatPercent = 0, vatAmt = 0.00;
         $('.return-loaded-data').remove();
         $.each($("input[name='item']:checked"), function(){
             let i = $(this).val();
@@ -230,10 +232,13 @@ $(document).ready(function()
                 if(i == Invoice.ii[item].IiId)
                 {
                     return_items = return_items + '<tr id="'+Invoice.ii[item].IiId+'" class="return-loaded-data item-row">';
-                    return_items = return_items + '<td  id="part_'+i+'">'+ Invoice.ii[item].IiOiPartNo+'</td>';
+                    return_items = return_items + '<td id="part_'+i+'">'+ Invoice.ii[item].IiOiPartNo+'</td>';
                     return_items = return_items + '<td id="ssno_'+i+'">'+ Invoice.ii[item].IiOiSupplierNo+'</td>';
                     return_items = return_items + '<td id="desc_'+i+'">'+ Invoice.ii[item].IiOiDescription+'</td>';
 
+					//every if condition is for if qty = 0 then disabled, else enabled with qty max value.
+					//i know there could be a function to do this. didnt think of it when i was making it.
+					//lazy right now on 31/01/2018 to change it. maybe later someday when i am free.
                     if(Invoice.ii[item].IiOiLeftQty == "0")
                     {
                         return_items = return_items + '<td><input id="lqty_'+i+'" class="rtn_input" type="number" min="0" max="'+Invoice.ii[item].IiOiLeftQty+'"  value="'+ Invoice.ii[item].IiOiLeftQty+'"  data-iiid = "'+Invoice.ii[item].IiId+'" disabled/></td>';
@@ -261,6 +266,8 @@ $(document).ready(function()
                     }
                     return_items = return_items + '<td><input id="price_'+i+'" type="number" value="'+ Invoice.ii[item].IiOiPrice+'" disabled/></td>';
                     return_items = return_items + '<td><input id="amount_'+i+'" type="number" class="td-amount" value="'+ Invoice.ii[item].IiOiAmount+'" disabled/></td>';
+					totAmt = totAmt + +Invoice.ii[item].IiOiAmount;
+					console.log(totAmt);
                     return_items = return_items + '</tr>';
                     // console.log(item + ":"+ Invoice.ii[item].IiOiPartNo);
                     $('#rtn_table').append(return_items);
@@ -275,6 +282,10 @@ $(document).ready(function()
             // // alert($(this).val());
         });
         // $(".return-loaded-data:nth-child(5)").append('<input type="number" value="0"/>');
+		vatPercent = Invoice.im.InVatPercent;
+		discount = Invoice.im.InDiscount;
+		vatAmt = (totAmt - discount) * (vatPercent / 100);
+		netAmt = (totAmt - discount) + vatAmt;
         return_items = `<tr class="return-loaded-data"> <td></td>
             <td></td>
             <td></td>
@@ -282,7 +293,7 @@ $(document).ready(function()
             <td></td>
             <td></td>
             <td>Total Amount:</td>
-            <td><input id="rtn_total" type="number" value="`+Invoice.im.InAmount+`" disabled/></td></tr>`;
+            <td><input id="rtn_total" type="number" value="`+totAmt+`" disabled/></td></tr>`; //Invoice.im.InAmount
         return_items = return_items + `<tr class="return-loaded-data">
             <td></td>
             <td></td>
@@ -291,7 +302,7 @@ $(document).ready(function()
             <td></td>
             <td></td>
             <td>Discount:</td>
-            <td><input id="rtn_discount" type="number" value="0" disabled/></td></tr>`;
+            <td><input id="rtn_discount" type="number" min="0" max="`+totAmt+`" value="`+ discount +`" /></td></tr>`;
         return_items = return_items + `<tr class="return-loaded-data">
             <td></td>
             <td></td>
@@ -299,8 +310,8 @@ $(document).ready(function()
             <td></td>
             <td></td>
             <td></td>
-            <td>VAT `+Invoice.im.InVatPercent+`% :</td>
-            <td><input id="rtn_vat_amount" type="number" value="`+Invoice.im.InVatAmount+`" disabled/></td></tr>`;
+            <td id="rtn_vatPercent" data-vatper = `+vatPercent+`>VAT `+vatPercent+`% :</td> //Invoice.im.InVatPercent
+            <td><input id="rtn_vat_amount" type="number" value="`+vatAmt+`" disabled/></td></tr>`;
         return_items = return_items + `<tr class="return-loaded-data">
             <td></td>
             <td></td>
@@ -309,15 +320,24 @@ $(document).ready(function()
             <td></td>
             <td></td>
             <td><strong>Net Return Amount:</strong></td>
-            <td><input id="rtn_net_amount" type="number" value="`+Invoice.im.InNetAmount+`" disabled/></td></tr>`;
+            <td><input id="rtn_net_amount" type="number" value="`+netAmt+`" disabled/></td></tr>`;
         $('#rtn_table').append(return_items);
         return_items ="";
         $("#tabs").tabs({active:1});
         // alert("val-=--"+values.join(", "));
         // alert("Dynamic button action");
     });
+	$(document).on('change','#rtn_discount',function(){
+		let totAmt = $("#rtn_total").val();
+		let discount = $(this).val();
+		let vatPercent = parseFloat($("#rtn_vatPercent").attr("data-vatper"));
+		let vatAmt = parseFloat((totAmt - discount) * (vatPercent / 100));
+		let netAmt = parseFloat( (totAmt - discount) + parseFloat(vatAmt) );
+		console.log("discount, changed");
+		$("#rtn_vat_amount").val(vatAmt);
+		$("#rtn_net_amount").val(netAmt);
 
-
+	});
     $(document).on('change','.rtn_input', function(event) {
         // event.preventDefault();
         // alert('haaaasss!!!');
@@ -326,10 +346,12 @@ $(document).ready(function()
         // alert(id);
         // let total_qty = parsInt($('#lqty_'+id).val())+parsInt($('#rqty_'+id).val());
 
-        let total_qty, left_qty, right_qty, price;
+        let total_qty, left_qty, right_qty, price, discount, vatPercent;
         left_qty = $('#lqty_'+id).val();
         right_qty = $('#rqty_'+id).val();
         price = $('#price_'+id).val();
+		discount = $('#rtn_discount').val();
+		vatPercent = parseInt($('#rtn_vatPercent').attr('data-vatper'));
 
 
         //check if total_qty = disabled
@@ -353,8 +375,8 @@ $(document).ready(function()
             total_amount = math.add(total_amount,$(this).val()).toFixed(2);
         });
         $('#rtn_total').val(total_amount);
-        $('#rtn_vat_amount').val(math.multiply(total_amount,0.05).toFixed(2));
-        $('#rtn_net_amount').val(math.add(total_amount,$('#rtn_vat_amount').val()).toFixed(2));
+        $('#rtn_vat_amount').val(math.multiply( math.subtract(total_amount,discount) ,vatPercent / 100).toFixed(2));
+        $('#rtn_net_amount').val(math.add( math.subtract(total_amount,discount),$('#rtn_vat_amount').val()).toFixed(2));
 
         // console.log(event);
         // console.log(total_qty);
@@ -367,7 +389,7 @@ $(document).ready(function()
         // lets create 2 objects.. not again
         // 1st will be creditnotemaster data and 2nd for its items.
         // i need to have a better way for this fucking process,, 3rd time i'm doing this.
-		$(this).attr('Disabled','Disabled');
+		$(this).attr("disabled","true");
         var cn_master = {
             inv_id : Invoice.im.InId,
             company_code: Invoice.im.InOmCompanyCode,
@@ -423,9 +445,5 @@ $(document).ready(function()
             console.log("complete");
             console.log(cn_master);
         });
-
-
-
     });
-
 });

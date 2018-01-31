@@ -168,7 +168,7 @@
 							<td><strong>Net Amount:</strong></td>
 							<td style="text-align: right;"><strong >
 							<?php
-								$netamt = ($amount - $orderinfo['OmDiscount'])+$vatamt;
+								$netamt = number_format(($amount - $orderinfo['OmDiscount'])+$vatamt , 2);
 								echo $netamt;
 							?></strong></td>
 						</tr>

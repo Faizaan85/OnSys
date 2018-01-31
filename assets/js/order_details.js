@@ -54,12 +54,11 @@ function change_row_state($orderid, $tr, $state, $lqty, $rqty, $tqty)
                 success: function(res)
                 {
                     $tr.attr("class",$state);
-                    console.log(res);
+                    // console.log(res);
                 },
                 error: function(jqxhr, txtstat)
                 {
-                    console.log(jqxhr);
-                    console.log(txtstat);
+                    alert(jqxhr.responseJSON.message + " : " + jqxhr.responseJSON.invoice);
                 }
             });
     }
@@ -128,7 +127,7 @@ $(document).ready(function()
 		$('#txtTqty'+trid).attr('disabled',!bolisdisabled);
 		$(this).attr('data-editstate','true');
 
-		console.log((!bolisdisabled).toString());
+		// console.log((!bolisdisabled).toString());
     });
 	$(".qty").change(function(event)
 	{
