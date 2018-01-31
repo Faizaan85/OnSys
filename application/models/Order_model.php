@@ -133,6 +133,7 @@
 // /Delete Order
         public function order_item_state($state)
         {
+
             // To update record set OiStatus with $state['OiStatus']
             $this->db->set('OiStatus', $state['OiStatus']);
             // With Following Conditions
@@ -175,6 +176,18 @@
 			// Return the result of the query
 			return $this->db->update('ordermaster');
 		}
+        public function check_invoice_exists($colname,$value)
+        {
+            $query = $this->db->get_where('invoicemaster', array($colname => $value));
+            $result = $query->row_array();
+            if(isset($result))
+            {
+                return $result;
+            }
+            else{
+                return $this->db->error();
+            }
+        }
         public function get_invoices($cond = "ALL") //
         {
             if($cond == "adsfALL")

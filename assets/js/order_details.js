@@ -55,6 +55,11 @@ function change_row_state($orderid, $tr, $state, $lqty, $rqty, $tqty)
                 {
                     $tr.attr("class",$state);
                     console.log(res);
+                },
+                error: function(jqxhr, txtstat)
+                {
+                    console.log(jqxhr);
+                    console.log(txtstat);
                 }
             });
     }

@@ -329,7 +329,17 @@ class Orders extends CI_Controller
 			'OiModifiedOn' => $date->getTimestamp(),
 			'OiStatus' => $this->input->post('status')
 		);
-		if($this->input->post('oitotalqty') != NULL)
+		// Check if invoice made. already. 
+		$chkInv = $this->order_model->check_invoice_exists('InOmId', $state['OiOmId']);
+		if(array_key_exists('InOmId', $chkInv) && $state['OiStatus'] == 0)
+		{
+			// Means the invoice is already made. 
+			header('HTTP/1.1 500 Invoice Already Made.');
+        	header('Content-Type: application/json; charset=UTF-8');
+        	print(json_encode(array('message' => 'Invoice Exists', 'code' => 500)));
+        	die();
+		}
+		elseif($this->input->post('oitotalqty') != NULL)
 		{
 			// Create additional Array
 			$state_addition = array(

@@ -140,7 +140,8 @@
 							<td></td>
 							<td></td>
 							<td>-Discount:</td>
-							<td style="text-align: right;"><?php echo(number_format($orderinfo['OmDiscount'],2));?></td>
+							<td style="text-align: right;">
+								<?php echo(number_format($orderinfo['OmDiscount'],2));?></td>
 						</tr>
 						<tr>
 							<td></td>
@@ -152,8 +153,8 @@
 							<td></td>
 							<td>VAT <?php echo($invinfo=="" ? "5" : $invinfo['InVatPercent']); ?>%:</td>
 							<td  style="text-align: right;" >
-								<?php $vatamt = ($amount - number_format($orderinfo['OmDiscount'],2)) *.05;
-									echo(number_format($vatamt,2));
+								<?php $vatamt = number_format(($amount - number_format($orderinfo['OmDiscount'],2)) *.05 , 2);
+									echo($vatamt);
 								?></td>
 						</tr>
 						<tr>
@@ -168,7 +169,7 @@
 							<td style="text-align: right;"><strong >
 							<?php
 								$netamt = ($amount - $orderinfo['OmDiscount'])+$vatamt;
-								echo number_format($netamt,2);
+								echo $netamt;
 							?></strong></td>
 						</tr>
 					</tbody>
@@ -244,8 +245,8 @@
 							<td></td>
 							<td>VAT <?php echo($invinfo['InVatPercent']); ?>%:</td>
 							<td  style="text-align: right;" data-vatamount="<?php echo($invinfo['InVatPercent']); ?>">
-								<?php $vatamt = $amount*.05;
-									echo(number_format($vatamt,2));
+								<?php $vatamt = number_format(($amount - number_format($invinfo['InDiscount'],2)) *.05 , 2);
+									echo($vatamt);
 								?></td>
 						</tr>
 						<tr>
@@ -350,6 +351,7 @@
 								<?php $vatamt = $amount*.05;
 									echo(number_format($vatamt,2));
 								?></td>
+
 						</tr>
 						<tr>
 							<td></td>
