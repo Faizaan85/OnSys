@@ -368,15 +368,16 @@ class Orders extends CI_Controller
 		//$this->print_order($orderid);
 		echo json_encode($result);
 	}
-
-
 	//BETA version of CRUD system. version 2.0 if you will.
-	private function validate_user($user_lvl, $allowed_lvl) {
+	private function validate_user($user_lvl, $allowed_lvl)
+	{
 		//return true if allowed_lvl >= $user_lvl
-		if($user_lvl >= $allowed_lvl) {
+		if($user_lvl >= $allowed_lvl)
+		{
 			return TRUE;
 		}
-		else {
+		else
+		{
 			return FALSE;
 		}
 	}

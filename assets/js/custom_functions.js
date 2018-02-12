@@ -52,13 +52,13 @@ function setfocus(objectid)// this is for the textbox to get focus onload.
 // }
 function GetProductTrans(part_no)
 {
-    console.log($base_url);
-		part_no = part_no.replace(/[^\w\s]/gi,'');
-        var custnum="ALL";
-        var str1="Item_Trans.php?part_no=";
-        var str2= str1.concat(part_no,"&cust=ALL");
-        window.open(str2,'_self');
-        //document.getElementById(part_no.concat("1")).innerHTML=str2;
+    // console.log($base_url);
+    part_no = part_no.replace(/[^\w\s]/gi,'');
+    var custnum="ALL";
+    var str1="Item_Trans.php?part_no=";
+    var str2= str1.concat(part_no,"&cust=ALL");
+    window.open(str2,'_self');
+    //document.getElementById(part_no.concat("1")).innerHTML=str2;
 }
 function allowButton(e,type="ALL")
 {
@@ -71,7 +71,8 @@ function allowButton(e,type="ALL")
 	{
 		return e.key;
 	}
-	else {
+	else
+    {
 		e.preventDefault();
 		return false;
 	}
@@ -109,7 +110,7 @@ function whichButton(e,str,type="ALL")
 		{
 			return;
 		}
-		$.getJSON("items/get_part_details/"+partNo ,function(data)
+		$.getJSON($base_url + "items/get_part_details/"+partNo ,function(data)
         {
 	            // console.log(data);
 		}).done(function(data){
@@ -353,4 +354,3 @@ function addRow(tableID)
         $('#Part_no').focus();
     }
 }
-

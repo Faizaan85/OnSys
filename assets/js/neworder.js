@@ -47,7 +47,7 @@ $(document).ready(function()
     //     $('#OrderForm').find('button[data-id=Qname]').focus();
     // });
 
-    
+
     //toggle forms: make creating order more visible
     $('#open-close-toggle').on('click',function(){
         //#toggle-section is the Element to Toggle
@@ -73,16 +73,16 @@ $(document).ready(function()
     });
     //make invoie. this is gonna be another problematic code.
     $('#make_invoice').on('click',function(){
-    	//first, I need to check if the Order has been saved. 
+    	//first, I need to check if the Order has been saved.
     	//To check that, I can check if #order_num has value set to it.
     	console.log("clicked");
     	if(order_id == ""){
-    		//This means order is not saved yet. 
+    		//This means order is not saved yet.
     		//show msge to user to save the order first.
-    		
+
     		//this is cause i dont have time to trigger the event myself and
     		//get the order_id myself cause i don't know how long it will take before click even is complete.
-    		
+
     		// $('#save').trigger('click');
     		alert("Please save the order first");
     	}else{
@@ -111,7 +111,7 @@ $(document).ready(function()
     		.always(function() {
     			console.log("complete");
     		});
-    		
+
     	}
     });
 
@@ -232,7 +232,7 @@ $(document).ready(function()
 
         if($my_global_order.length>0 && ($('#save').attr("disabled") != "disabled"))
   		{
-  			
+
   			return  'Are you sure you want to leave?';
   		}
 		else {

@@ -192,7 +192,8 @@
                 </form>
                 <ul class="nav navbar-nav">
                 	<li><a href="<?php echo base_url()?>returns" accesskey="r">Returns</a></li>
-                	<li><a href="<?php echo base_url()?>purchase" accesskey="">Purchase Inv</a></li>
+                	<li><a href="<?php echo base_url()?>purchases" accesskey="p">Purchases</a></li>
+                	<li><a href="<?php echo base_url()?>purchases/new_purchase" accesskey="i">Purchase Inv</a></li>
                 </ul>
 				<!-- Right Side Navbar -->
 				<ul class="nav navbar-nav navbar-right">
