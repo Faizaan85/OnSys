@@ -1,6 +1,13 @@
 
 
 </body>
+<?php
+if(isset($jslist)):
+	foreach($jslist as $js): ?>
+		<script type="text/javascript" src="<?php echo base_url();?>assets/js/<?php echo $js;?>"></script>
+	<?php
+	endforeach;
+endif; ?>
 <script type="text/javascript">
 	function change_url(str)
 	{

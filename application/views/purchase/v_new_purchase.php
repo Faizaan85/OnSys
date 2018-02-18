@@ -1,4 +1,5 @@
-<div class="container-fluid">
+<div id="vue-app" class="container-fluid">
+
     <div class="row">
         <div id="something" class="hidden">
             <a href="<?php echo base_url(); ?>" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -41,7 +42,7 @@
                 <div class="col-sm-3 col-md-3 col-lg-3">
                     <label for="customer_name">Customer Name:</label>
                     <input type="text" id="customer_name" class="form-control"
-                    value="" placeholder="Customer Name." onkeyup='whichButton(event,"lpo")' required>
+                    :value="name" placeholder="Customer Name." onkeyup='whichButton(event,"lpo")' required>
                 </div>
                 <div class="col-sm-3 col-md-3 col-lg-3">
                     <label for="lpo">LPO:</label>
@@ -126,35 +127,36 @@
         <div class="row">
             <div class="col-xs-1">
                 <label for="Add_Row">Select</label>
-                <input class="form-control" id="Add_Row" type="button" value="ADD" onclick="addRow('OutputBody')" onkeyup='whichButton(event, "Part_no")'>
+                <!-- onclick="addRow('OutputBody')" -->
+                <input class="form-control" id="Add_Row" type="button" value="ADD" v-on:click="add"  onkeyup='whichButton(event, "Part_no")'>
             </div>
             <div class="col-xs-2">
                 <label for="Part_no">Part No</label>
-                <input class="form-control" id="Part_no" type="text" placeholder="Part No (F9)" onfocus="clearInput()" accesskey="p"  onkeyup='whichButton(event, "Qty_R")' required>
+                <input class="form-control" id="Part_n" type="text" placeholder="Part No (F9)" onfocus="clearInput()" accesskey="p"  onkeyup='whichButton(event, "Qty_R")' v-model="item.partno" required>
             </div>
             <div class="col-xs-2">
                 <label for="Supplier_no">Supplier No</label>
-                <input class="form-control" id="Supplier_no" type="text" onkeyup='whichButton(event, "Qty_R")'minlength="2" required>
+                <input class="form-control" id="Supplier_n" type="text" onkeyup='whichButton(event, "Qty_R")'minlength="2" v-model="item.ssno" required>
             </div>
             <div class="col-xs-3">
                 <label for="Desc_">Description</label>
-                <input type="text" class="form-control" id="Desc_" onkeyup='whichButton(event, "Qty_R")' minlength="2" required>
+                <input type="text" class="form-control" id="Desc" onkeyup='whichButton(event, "Qty_R")' minlength="2" v-model="item.desc" required>
             </div>
             <div class="col-xs-1">
                 <label for="Qty_R">Qty R</label>
-                <input type="number" class="form-control qty" id="Qty_R" value="0" min="0"  onkeyup='whichButton(event, "Qty_L")' onkeydown='allowButton(event,"number")'>
+                <input type="number" class="form-control qty" id="Qty_R" value="0" min="0"  onkeyup='whichButton(event, "Qty_L")'  v-model="item.rqty" onkeydown='allowButton(event,"number")'>
             </div>
             <div class="col-xs-1">
                 <label for="Qty_L">Qty L</label>
-                <input type="number" class="form-control qty" id="Qty_L" value="0" min="0" onkeyup='whichButton(event, "Total_")' onkeydown='allowButton(event,"number")'>
+                <input type="number" class="form-control qty" id="Qty_L" value="0" min="0" onkeyup='whichButton(event, "Total_")'  v-model="item.lqty" onkeydown='allowButton(event,"number")'>
             </div>
             <div class="col-xs-1">
                 <label for="Total_">Total</label>
-                <input type="number" class="form-control" id="Total_" min="1" onkeyup='whichButton(event, "Price_")' onkeydown='allowButton(event,"number")'>
+                <input type="number" class="form-control" id="Total_" min="1" onkeyup='whichButton(event, "Price_")'  v-model="item.tqty" onkeydown='allowButton(event,"number")'>
             </div>
             <div class="col-xs-1">
                 <label for="Price_">Price</label>
-                <input type="number" class="form-control" id="Price_" min="0" data-tgp="-1" onkeyup='whichButton(event, "Add_Row")' onkeydown='allowButton(event,"float")'>
+                <input type="number" class="form-control" id="Price_" min="0" data-tgp="-1" onkeyup='whichButton(event, "Add_Row")'  v-model="item.price" onkeydown='allowButton(event,"float")'>
             </div>
         </div>
         <div class="row">
@@ -187,8 +189,24 @@
                 </tr>
             </thead>
             <tbody id="OutputBody">
-
+                <template v-for="(it, i) in items">
+                    <tr v-bind:id="it.partno">
+                        <td>{{i+1}}</td>
+                        <td>{{it.partno}}</td>
+                        <td>{{it.ssno}}</td>
+                        <td>{{it.desc}}</td>
+                        <td>{{it.rqty}}</td>
+                        <td>{{it.lqty}}</td>
+                        <td>{{it.tqty}}</td>
+                        <td>{{it.price}}</td>
+                        <td>{{it.amount}}</td>
+                        <td>{{it.amount * 0.05}}</td>
+                    </tr>
+                </template>
             </tbody>
         </table>
     </div>
 </div>
+<script src= "<?php echo base_url(); ?>assets/js/v_new_purchase.js">
+
+</script>

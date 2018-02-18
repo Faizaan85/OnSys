@@ -266,6 +266,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<button id="<?php echo($invinfo=='' ? '--' : $invinfo['InId']);?>">Email</button>
 			</div>
 
 			<!-- php loop for table for n credit notes -->

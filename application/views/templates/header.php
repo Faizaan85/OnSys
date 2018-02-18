@@ -10,47 +10,42 @@
 <html lang="en">
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?php echo $title; ?></title>
-    <meta name="description" content="Order">
-    <meta name="author" content="Faizaan Varteji">
+	<title><?php echo $title; ?></title>
+	<meta name="description" content="Order">
+	<meta name="author" content="Faizaan Varteji">
 	<?php
-		$varsdefined = get_defined_vars();
-		if(isset($varsdefined['autorefresh']))
+	$varsdefined = get_defined_vars();
+	if(isset($varsdefined['autorefresh']))
+	{
+		if($autorefresh === TRUE)
 		{
-			if($autorefresh === TRUE)
-			{
-				echo ('<meta http-equiv="refresh" content="3; URL='. base_url().'orders">');
-			}
+			echo ('<meta http-equiv="refresh" content="3; URL='. base_url().'orders">');
 		}
+	}
 	?>
-    <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/jquery-ui/jquery-ui.min.js"></script>
 
-    <script src="<?php echo base_url(); ?>assets/js/jqvalid/dist/jquery.validate.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/jqvalid/dist/jquery.validate.js"></script>
 	<script src="<?php echo base_url(); ?>assets/DataTables/datatables.min.js"></script>
 
-    <script src="<?php echo base_url();?>assets/js/shortcut.js"></script>
-    <script src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
+	<script src="<?php echo base_url();?>assets/js/shortcut.js"></script>
+	<script src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
 
 	<?php if(isset($varsdefined['mode'])) : ?>
-		<script type="text/javascript"">
-			var $global_mode="<?php echo $mode ?>";
+		<script type="text/javascript">
+		var $global_mode="<?php echo $mode ?>";
 		</script>
 	<?php endif; ?>
 	<script type="text/javascript">
-		var $base_url = "<?php echo base_url(); ?>"
+	var $base_url = "<?php echo base_url(); ?>"
 	</script>
 
-	<?php if (isset($varsdefined['jslist'])):
-
-		foreach($jslist as $js): ?>
-			<script type="text/javascript" src="<?php echo base_url();?>assets/js/<?php echo $js;?>"></script>
-		<?php endforeach;
-		endif; ?>
+	
 
 
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
