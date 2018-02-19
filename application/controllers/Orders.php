@@ -1,5 +1,7 @@
 <?php
 require(APPPATH.'libraries/fpdf/fpdf.php');
+require(APPPATH.'controllers/TestFpdf.php');
+
 class PDF extends FPDF
 {
 	// Page header
@@ -461,7 +463,7 @@ class Orders extends CI_Controller
 		// //$pdf->Output();
 		// $pdf->Output();
 	}
-	public function print_invoice($inv_id=0)
+	public function print_invoice($inv_id=0, $save=true)
 	{
 		$this->load->model('order_model');
 		$oinfo= $this->order_model->get_invoices($inv_id);
@@ -478,8 +480,40 @@ class Orders extends CI_Controller
 		date_default_timezone_set("Asia/Muscat");
 		$pdf->Output('F',$location.$inv_id.'-'.date("Ymd-his").'.pdf',true);
 		$pdf->Output('I','Invoice-'.$inv_id.'.pdf',true);
-
+		//$this->email_invoice($inv_id);
 		// echo ('Order saved :'.$orderNumber);
+
+	}
+	public function email_invoice($inv_id=0)
+	{
+		$this->load->model('order_model');
+		$oinfo= $this->order_model->get_invoices($inv_id);
+		$items= $this->order_model->get_invoice_items($inv_id);
+		// Cell(float w [, float h [, string txt [, mixed border [, int ln [, string align [, boolean fill [, mixed link]]]]]]])
+
+		$location = $_SERVER['DOCUMENT_ROOT'].'/OnSys12/OnSys/Invoices/Emailed/I-';
+		$pdf = new TPDF('P','mm',array(230,280));
+		$pdf->setLeftMargin(30);
+		$pdf->setRows($oinfo);
+		$pdf->AddPage();
+		$pdf->SetAutoPageBreak(true, 50.00);
+		$pdf->InvoiceTable($items);
+		date_default_timezone_set("Asia/Muscat");
+		//$pdf->Output('F',$location.$inv_id.'-'.date("Ymd-his").'.pdf',true);
+		$pdf->Output('F',$location.$inv_id.'.pdf',true);
+
+		$this->load->library('email');
+		
+		
+
+		$this->email->from('spykid666@gmail.com', 'spykid666@gmail.com');
+		$this->email->to('faizaan.varteji@gmail.com');
+
+		$this->email->subject('test invoice');
+		$this->email->message('testing email send attachment e: inv_id: '.$location.$inv_id.'.pdf');
+		$this->email->attach($location.$inv_id.'.pdf');
+		// $this->email->attach($pdf->Output('F','Invoice-'.$inv_id.'.pdf'),'inline');
+		$this->email->send();
 
 	}
 	public function view_order($order_id=0)
@@ -604,11 +638,12 @@ class Orders extends CI_Controller
 		$this->load->view('pages/v_o_i_cns.php');
 		$this->load->view('templates/footer');
 	}
+
 	private function checkDbError($Ar)
 	{
 		if(array_key_exists('code',$Ar))
 		{
-				return true;
+			return true;
 		}
 		else
 		{
