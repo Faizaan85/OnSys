@@ -37,21 +37,13 @@
     <script src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
 
 	<?php if(isset($varsdefined['mode'])) : ?>
-		<script type="text/javascript"">
+		<script type="text/javascript">
 			var $global_mode="<?php echo $mode ?>";
 		</script>
 	<?php endif; ?>
 	<script type="text/javascript">
 		var $base_url = "<?php echo base_url(); ?>"
 	</script>
-
-	<?php if (isset($varsdefined['jslist'])):
-
-		foreach($jslist as $js): ?>
-			<script type="text/javascript" src="<?php echo base_url();?>assets/js/<?php echo $js;?>"></script>
-		<?php endforeach;
-		endif; ?>
-
 
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/math.min.js"></script>

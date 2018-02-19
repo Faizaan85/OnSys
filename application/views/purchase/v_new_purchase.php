@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div id="vue-app" class="container-fluid">
     <div class="row">
         <div id="something" class="hidden">
             <a href="<?php echo base_url(); ?>" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -6,6 +6,7 @@
         </div>
     </div>
     <div id="toggle-section">
+		{{name}}
         <div class="row">
             <form id="form_main" class="form-group">
                 <div class="col-sm-3 col-md-3 col-lg-3">

@@ -6,3 +6,4 @@
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
+application/config/database.php

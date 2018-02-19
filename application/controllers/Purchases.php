@@ -25,7 +25,7 @@ class Purchases extends CI_Controller{
 
       $data['title'] = 'New Purchase';
       $data['mode'] = 'New';
-      $data['jslist']  = array('custom_functions.js','new_purchase.js');
+      $data['jslist']  = array('vue.js','custom_functions.js','new_purchase.js','v_new_purchase.js');
       $this->load->view('templates/header', $data);
       $this->load->view('purchase/v_new_purchase');
       $this->load->view('templates/footer');
