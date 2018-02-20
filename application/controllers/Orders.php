@@ -608,7 +608,7 @@ class Orders extends CI_Controller
 	{
 		if(array_key_exists('code',$Ar))
 		{
-				return true;
+			return true;
 		}
 		else
 		{
