@@ -121,7 +121,7 @@ class Items extends CI_Controller
     $data['op_stock'] = $this->input->post('op_stock');//done
     $data['qty_res'] = $this->input->post('qty_res');//done
     $data['ssno'] = $this->input->post('ssno');//done
-    $data['frrate'] = $this->input->post('frrate');
+    $data['frrate'] = $this->input->post('frrate');//done
     $data['op_rate'] = $this->input->post('op_rate');
     $data['calc_avg'] = $this->input->post('calc_avg');
     if($state == "new")
