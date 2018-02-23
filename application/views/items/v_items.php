@@ -1,9 +1,89 @@
 <div id="vue-app" class="container-fluid">
-  <div class="alert alert-info" role="alert" v-if="alerts.show">
-    <!-- for the data flash -->
-    <button type="button" class="close" data-dissmiss="alert" aria-label="Close" v-on:click="alerts.show = !alerts.show" ><span aria-hidden="true">&times;</span></button>
-    <span>{{alerts.message}}</span>
-  </div>
+  <v-app>
+    <v-content>
+      <v-container fluid>
+        <v-layout row wrap>
+          <v-flex xs12 v-if="alerts.show">
+            <v-alert v-bind:type="alerts.status" dismissible v-model="alerts.show">
+              {{alerts.message}}
+            </v-alert>
+          </v-flex>
+          <v-flex>
+
+
+            <v-dialog v-model="dialog" max-width="80%">
+      <v-btn color="primary" dark slot="activator" class="mb-2">New Item</v-btn>
+      <v-card>
+        <v-card-title>
+          <span class="headline">{{ formTitle }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Dessert name" v-model="editedItem.name"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Calories" v-model="editedItem.calories"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Fat (g)" v-model="editedItem.fat"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Carbs (g)" v-model="editedItem.carbs"></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6 md4>
+                <v-text-field label="Protein (g)" v-model="editedItem.protein"></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
+          <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
+            <v-text-field
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
+            v-model="itemTable.search"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex xs12>
+            <v-data-table
+            :headers = "itemTable.headers"
+            :items = "itemTable.items"
+            :rows-per-page-items = "itemTable.rowsPerPage"
+            :search = "itemTable.search"
+            class="elevation-1"
+            >
+              <template slot="items" slot-scope="props">
+                <td>{{props.item.PART_NO}}</td>
+                <td>{{props.item.DESC}}</td>
+                <td>{{props.item.SSNO}}</td>
+                <td class="text-xs-right">{{props.item.QTY_HAND}}</td>
+                <td class="text-xs-right">{{props.item.SALES_PRIC}}</td>
+                <td class="text-xs-right">{{props.item.UNIT_COST}}</td>
+              </template>
+            </v-data-table>
+          </v-flex>
+        </v-layout>
+
+      </v-container>
+    </v-content>
+  </v-app>
+
+
+
+
   <div class="row">
     <div class="col-sm-2">
       <button class="btn btn-success" v-on:click="showAdd = !showAdd">Add <span class="glyphicon glyphicon-plus"></span></button>

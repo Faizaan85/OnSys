@@ -22,13 +22,19 @@ class Items extends CI_Controller
   public function index()
   {
     $data['title'] = "Items";
-    $jslist = array("vue.js","custom_functions.js","v_items.js","v_items.php");
+    $jslist = array("vue.js","vue-resource.js","vuetify.js","custom_functions.js","v_items.js","v_items.php");
     $data['jslist'] = $jslist;
     $data['autorefresh'] = FALSE;
 
     $this->load->view('templates/header', $data);
     $this->load->view('items/v_items.php');
     $this->load->view('templates/footer');
+  }
+  public function get_items()
+  {
+    $data['count'] = $this->input->get('count');
+    $result = $this->item_model->get_items($data);
+    echo json_encode($result);
   }
   public function get_part_details($partno)
   {

@@ -12,6 +12,16 @@ class Item_model extends CI_Model
       return false;
     }
   }
+  public function get_items($params)
+  {
+
+    if($params['count']!=NULL)
+    {
+      $this->db->limit($params['count']);
+    }
+    $query = $this->db->get('item');
+    return $query->result_array();
+  }
   public function get_partno_details($partno)//input partno and get details of it.
   {
     $query = $this->db->get_where('item', array('PART_NO'=>$partno));
