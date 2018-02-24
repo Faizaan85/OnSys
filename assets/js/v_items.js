@@ -12,41 +12,49 @@ new Vue(
     dialog: false,
     editedIndex: -1,
     editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      },
+      PART_NO:'',
+      SSNO:'',
+      DESC:'',
+      EQUIPMENT:'',
+      CO_NAME:'',
+      REMARK:'',
+      BIN:'',
+      UNIT:'PC',
+      PKG_QTY: 1,
+      WT:0.00,
+      UNIT_COST:0.00,
+      SALES_PRIC:0.00,
+      QTY_HAND:0,
+      QTY_RES:0,
+      MAX_LEVEL:0,
+      MIN_LEVEL:0,
+      QTY_ORDER:0,
+      OP_STOCK:0,
+      FRRATE:0,
+      valid:false
+    },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
+        PART_NO:'',
+        SSNO:'',
+        DESC:'',
+        EQUIPMENT:'',
+        CO_NAME:'',
+        REMARK:'',
+        BIN:'',
+        UNIT:'',
+        PKG_QTY: 1,
+        WT:0.00,
+        UNIT_COST:0.00,
+        SALES_PRIC:0.00,
+        QTY_HAND:0,
+        QTY_RES:0,
+        MAX_LEVEL:0,
+        MIN_LEVEL:0,
+        QTY_ORDER:0,
+        OP_STOCK:0,
+        FRRATE:0
       },
     showAdd: false,
-    itemAddData: {
-      part_no: '',
-      equipment: '',
-      co_name: '',
-      desc: '',
-      remark: '',
-      bin: '',
-      unit: '',
-      pkg_qty: '',
-      wt: '',
-      unit_cost: '',
-      sales_pric: '',
-      qty_hand: '',
-      max_level: '',
-      min_level: '',
-      qty_order: '',
-      op_stock: '',
-      qty_res: '',
-      ssno: '',
-      frrate: ''
-    },
     itemTable: {
       headers: [
         {
@@ -89,56 +97,103 @@ new Vue(
       items: [],
       rowsPerPage: [10, 50, 100, { "text":"All","value":-1}],
       search: ''
+    },
+    rules: {
+      loading: false,
+      required: (value) => !!value || 'Required',
+      max2: (value) => {
+        if(!value && value.length<=2){
+          return 'Max 2 digits';
+        }
+        else{
+          return true;
+        }
+      },
+      max10: (value) => {
+        if(!value && value.length<=10){
+          return 'Max 10 Characters';
+        }
+        else{
+          return true;
+        }
+      },
+      max15: (value) => {
+        if(value){
+          if(value.length>15){
+            return 'Max 15 digits';
+          }
+        }
+        else{
+          return true;
+        }
+      },
+      max20: (value) => value.length<=20 || 'Max 20 Characters',
+      max30: (value) => value.length<=30 || 'Max 30 Characters',
+      max80: (value) => value.length<=80 || 'Max 80 Characters',
+      max100: (value) => value.length<=100 || 'Max 100 Characters'
     }
 	},
   methods: {
     editItem (item) {
-      this.editedIndex = this.items.indexOf(item)
+      this.$refs.addEditItem.reset()
+      this.editedIndex = this.itemTable.items.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
-
     deleteItem (item) {
-      const index = this.items.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
+      const index = this.itemTable.items.indexOf(item)
+      confirm('Are you sure you want to delete this item?') && this.itemTable.items.splice(index, 1)
     },
-
+    open () {
+      this.$refs.addEditItem.reset();
+      this.editedItem.UNIT = "PC";
+      this.dialog = true;
+    },
     close () {
-      this.dialog = false
+      this.dialog = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
-      }, 300)
-    },
+      }, 300);
 
+    },
     save () {
-      if (this.editedIndex > -1) {
-        Object.assign(this.items[this.editedIndex], this.editedItem)
+      if(this.editedItem.valid==false){
+        return;
+      }
+      if (this.editedIndex > -1) { // means its Editing
+        Object.assign(this.itemTable.items[this.editedIndex], this.editedItem)
+        //replace item with index with editedItem.
       } else {
-        this.items.push(this.editedItem)
+        this.itemTable.items.push(this.editedItem)
       }
       this.close()
-    }
+    },
+    checkIfExists(val,event){
+      // this.$http.get($base_url+'items/search?'+field+'='+value+'&count=1').then(response => {
+      //   console.log(response.body);
+      // });
+
+      console.log(val);
+      console.log(event);
+    },
 	},
   computed: {
     formTitle () {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     }
   },
-
   watch: {
     dialog (val) {
       val || this.close()
     }
   },
   created() {
-    this.$http.get($base_url+'items/get').then(response => {
+    this.$http.get($base_url+'items/get?count=50').then(response => {
       this.itemTable.items=response.body;
       console.log(this.itemTable.items);
     }, response =>{
       console.log("ERROR!!");
     });
   }
-
-
 });

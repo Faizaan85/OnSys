@@ -22,7 +22,7 @@ class Items extends CI_Controller
   public function index()
   {
     $data['title'] = "Items";
-    $jslist = array("vue.js","vue-resource.js","vuetify.js","custom_functions.js","v_items.js","v_items.php");
+    $jslist = array("vue.js","vue-resource.js","vuetify.js","custom_functions.js","v_items.js");
     $data['jslist'] = $jslist;
     $data['autorefresh'] = FALSE;
 
