@@ -32,6 +32,35 @@ class Item_model extends CI_Model
     $partno = $this->input->get('partno');
     $ccode = $this->input->get('ccode');
   }
+  public function search_api($params)
+  {
+    //params = field, value & count.
+    if($params['count'] != NULL)
+    {
+      $limitString = 'limit '.$params['count'];
+    }
+    else
+    {
+      $limitString = '';
+    }
+    if($params['wildcard'] == NULL)
+    {
+        $wildString = ' = "'.$params['value'].'"';
+    }
+    else {
+      $wildString = ' LIKE "%'.$params['value'] .'%" ';
+    }
+    if($params['field'] == NULL)
+    {
+      $query = $this->db->query(' Select * from item where PART_NO '.$wildString.' OR SSNO '.$wildString.'  OR `DESC`  '.$wildString.'  OR CO_NAME  '.$wildString.'  OR REMARK  '.$wildString.'  order by PART_NO ASC '.$limitString);
+      return $query->result_array();
+    }
+    else
+    {
+      $query = $this->db->query(' Select * from item where '. $params['field'].' '.$wildString.'  order by PART_NO ASC '.$limitString);
+      return $query->result_array();
+    }
+  }
   public function search($value="")
   {
     if($value==="")

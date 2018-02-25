@@ -100,6 +100,7 @@ new Vue(
     },
     rules: {
       loading: false,
+			partError: true,
       required: (value) => !!value || 'Required',
       max2: (value) => {
         if(!value && value.length<=2){
@@ -117,16 +118,7 @@ new Vue(
           return true;
         }
       },
-      max15: (value) => {
-        if(value){
-          if(value.length>15){
-            return 'Max 15 digits';
-          }
-        }
-        else{
-          return true;
-        }
-      },
+			max15: (v) => !!v && v.length<=15 || 'Max 15 Characters',
       max20: (value) => value.length<=20 || 'Max 20 Characters',
       max30: (value) => value.length<=30 || 'Max 30 Characters',
       max80: (value) => value.length<=80 || 'Max 80 Characters',
@@ -173,9 +165,19 @@ new Vue(
       // this.$http.get($base_url+'items/search?'+field+'='+value+'&count=1').then(response => {
       //   console.log(response.body);
       // });
+			let searchField = val;
+			let searchValue = event.path["0"].value;
+			this.$http.get($base_url+'items/search?field='+searchField+'&value='+searchValue+'&count=1').then(response => {
+				console.log(response.body);
+				this.rules.partError = "Item Already exists";
+			}, response =>{
+				this.rules.partError = true;
+				console.log("ERROR!!");
+			});
 
       console.log(val);
       console.log(event);
+			console.log(event.path["0"].value);
     },
 	},
   computed: {

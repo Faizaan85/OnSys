@@ -84,6 +84,39 @@ class Items extends CI_Controller
     $this->load->view('pages/item_search');
     $this->load->view('templates/footer');
   }
+
+  public function search_api()
+  {
+    $field = $this->input->get('field');
+    $value = $this->input->get('value');
+    $count = $this->input->get('count');
+    $wildcard = $this->input->get('wc');
+
+    if($value == NULL)
+    {
+      die(json_encode(array('message' => 'null value', 'code' => 505)));
+    }
+    else {
+      $data['value'] = $value;
+    }
+    $data['field'] = $field;
+    $data['count'] = $count;
+    $data['wildcard'] = $wildcard;
+
+    $data['searchresults'] = $this->item_model->search_api($data);
+    if(empty($data['searchresults']))
+    {
+      header('HTTP/1.1 404 Item Not Found');
+      header('Content-Type: application/json; charset=UTF-8');
+      die(json_encode(array('message' => 'Nothing found', 'code' => 500)));
+    }
+    else
+    {
+      header('Content-Type: application/json');
+      echo json_encode($data['searchresults']);
+    }
+  }
+
   public function item_history()
   {
     $value = $this->input->get('item');

@@ -24,7 +24,7 @@
                         <v-text-field
                         label="Part No"
                         v-model="editedItem.PART_NO"
-                        @blur="checkIfExists('something',$event)"
+                        @blur="checkIfExists('part_no',$event)"
                         required
                         :counter="15"
                         :rules="[rules.required, rules.max15]"
