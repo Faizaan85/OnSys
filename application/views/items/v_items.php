@@ -26,8 +26,10 @@
                         v-model="editedItem.PART_NO"
                         @blur="checkIfExists('part_no',$event)"
                         required
-                        :counter="15"
+                        counter="15"
                         :rules="[rules.required, rules.max15]"
+                        :error="rules.partError"
+                        :error-message="errorMessage"
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs12  sm6  md4 >

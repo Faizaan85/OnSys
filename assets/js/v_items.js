@@ -9,6 +9,7 @@ new Vue(
       show: false,
       message: ''
     },
+    errorMessage:[],
     dialog: false,
     editedIndex: -1,
     editedItem: {
@@ -100,7 +101,7 @@ new Vue(
     },
     rules: {
       loading: false,
-			partError: true,
+			partError: false,
       required: (value) => !!value || 'Required',
       max2: (value) => {
         if(!value && value.length<=2){
@@ -167,11 +168,16 @@ new Vue(
       // });
 			let searchField = val;
 			let searchValue = event.path["0"].value;
+
 			this.$http.get($base_url+'items/search?field='+searchField+'&value='+searchValue+'&count=1').then(response => {
-				console.log(response.body);
-				this.rules.partError = "Item Already exists";
-			}, response =>{
+        this.errorMessage = ['its not fucking working'];
+        console.log(response.body + 'EM: '+ this.errorMessage);
 				this.rules.partError = true;
+        // this.$refs.addEditItem.validate();
+			}, response =>{
+        this.errorMessage = [];
+				this.rules.partError = false;
+        // this.$refs.addEditItem.validate();
 				console.log("ERROR!!");
 			});
 
