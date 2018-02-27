@@ -9,7 +9,10 @@ new Vue(
       show: false,
       message: ''
     },
-    errorMessage:[],
+    errorMessage:{
+      part_no:[],
+      ssno:[]
+    },
     dialog: false,
     editedIndex: -1,
     editedItem: {
@@ -120,10 +123,10 @@ new Vue(
         }
       },
 			max15: (v) => !!v && v.length<=15 || 'Max 15 Characters',
-      max20: (value) => value.length<=20 || 'Max 20 Characters',
-      max30: (value) => value.length<=30 || 'Max 30 Characters',
-      max80: (value) => value.length<=80 || 'Max 80 Characters',
-      max100: (value) => value.length<=100 || 'Max 100 Characters'
+      max20: (v) => !!v && v.length<=20 || 'Max 20 Characters',
+      max30: (v) => !!v && v.length<=30 || 'Max 30 Characters',
+      max80: (v) => !!v && v.length<=80 || 'Max 80 Characters',
+      max100: (v) => !!v && v.length<=100 || 'Max 100 Characters'
     }
 	},
   methods: {
@@ -170,12 +173,11 @@ new Vue(
 			let searchValue = event.path["0"].value;
 
 			this.$http.get($base_url+'items/search?field='+searchField+'&value='+searchValue+'&count=1').then(response => {
-        this.errorMessage = ['its not fucking working'];
-        console.log(response.body + 'EM: '+ this.errorMessage);
+        this.errorMessage[searchField] = [searchValue + ' already exists.'];
 				this.rules.partError = true;
         // this.$refs.addEditItem.validate();
 			}, response =>{
-        this.errorMessage = [];
+        this.errorMessage[searchField] = [];
 				this.rules.partError = false;
         // this.$refs.addEditItem.validate();
 				console.log("ERROR!!");

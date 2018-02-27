@@ -28,17 +28,18 @@
                         required
                         counter="15"
                         :rules="[rules.required, rules.max15]"
-                        :error="rules.partError"
-                        :error-message="errorMessage"
+                        :error-messages="errorMessage.part_no"
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs12  sm6  md4 >
                         <v-text-field
                         label="Supplier No"
                         v-model="editedItem.SSNO"
+                        @blur="checkIfExists('ssno',$event)"
                         required
                         :counter="15"
                         :rules="[rules.required , rules.max15]"
+                        :error-messages="errorMessage.ssno"
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs12  sm6  md4 >
@@ -61,7 +62,7 @@
                       </v-flex>
                       <v-flex xs12  sm6  md4 >
                         <v-text-field
-                        label="Company Name"
+                        label="OEM Number"
                         v-model="editedItem.CO_NAME"
                         :counter="30"
                         :rules="[rules.max30]"
