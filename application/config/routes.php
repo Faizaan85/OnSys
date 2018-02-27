@@ -53,6 +53,7 @@ $route['default_controller'] = 'pages/view';
 $route['orders'] = 'orders/index';
 $route['items'] = 'items/index';
 $route['items/post'] = 'items/post_item';
+$route['items/put'] = 'items/put_item';
 $route['items/get']['get'] = 'items/get_items';
 $route['items/search']['get'] = 'items/search_api';
 

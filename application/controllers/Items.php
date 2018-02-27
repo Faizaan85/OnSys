@@ -106,7 +106,7 @@ class Items extends CI_Controller
     $data['searchresults'] = $this->item_model->search_api($data);
     if(empty($data['searchresults']))
     {
-      header('HTTP/1.1 404 Item Not Found');
+      header('HTTP/1.1 500 Item Not Found');
       header('Content-Type: application/json; charset=UTF-8');
       die(json_encode(array('message' => 'Nothing found', 'code' => 500)));
     }
@@ -142,7 +142,7 @@ class Items extends CI_Controller
     $result = $this->item_model->insert_item($data);
     if($this->checkDbError($result))
     {
-      header('HTTP/1.1 404 Item Not Found');
+      header('HTTP/1.1 501 Save Failed');
       header('Content-Type: application/json; charset=UTF-8');
       die(json_encode(array('message' => $result['message'], 'code' => $result['code'])));
     }
@@ -150,44 +150,23 @@ class Items extends CI_Controller
       header('Content-Type: application/json');
       echo json_encode($result);
     }
-
-
-    //
-    //
-    // $state = $this->input->post('state');
-    //
-    // $data['part_no'] = $this->input->post('part_no');//done
-    // $data['equipment'] = $this->input->post('equipment');//done
-    // $data['co_name'] = $this->input->post('co_name');//done
-    // $data['desc'] = $this->input->post('desc');//done
-    // $data['remark'] = $this->input->post('remark');//done
-    // $data['bin'] = $this->input->post('bin');//done
-    // $data['unit'] = $this->input->post('unit');//done
-    // $data['pkg_qty'] = $this->input->post('pkg_qty');//done
-    // $data['wt'] = $this->input->post('wt');//done
-    // $data['unit_cost'] = $this->input->post('unit_cost');//done
-    // $data['sales_pric'] = $this->input->post('sales_pric');//done
-    // $data['qty_hand'] = $this->input->post('qty_hand');//done
-    // $data['max_level'] = $this->input->post('max_level');//done
-    // $data['min_level'] = $this->input->post('min_level');//done
-    // $data['re_level'] = $this->input->post('re_level');
-    // $data['qty_order'] = $this->input->post('qty_order');//done
-    // $data['last_issue'] = $this->input->post('last_issue');
-    // $data['op_stock'] = $this->input->post('op_stock');//done
-    // $data['qty_res'] = $this->input->post('qty_res');//done
-    // $data['ssno'] = $this->input->post('ssno');//done
-    // $data['frrate'] = $this->input->post('frrate');//done
-    // $data['op_rate'] = $this->input->post('op_rate');
-    // $data['calc_avg'] = $this->input->post('calc_avg');
-    // if($state == "new")
-    // {
-    //   $this->item_model->insert_item($data);
-    // }
-    // elseif ($state == 'edit')
-    // {
-    //   $this->item_model->edit_item($data);
-    // }
   }
+  public function put_item()
+  {
+    $data = $this->input->post('item');
+    $result = $this->item_model->update_item($data);
+    if($this->checkDbError($result))
+    {
+      header('HTTP/1.1 502 Update Failed');
+      header('Content-Type: application/json; charset=UTF-8');
+      die(json_encode(array('message' => $result['message'], 'code' => $result['code'])));
+    }
+    else {
+      header('Content-Type: application/json');
+      echo json_encode($result);
+    }
+  }
+
 
 }
 

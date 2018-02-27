@@ -183,8 +183,16 @@ new Vue(
         return;
       }
       if (this.editedIndex > -1) { // means its Editing
+        this.$http.post($base_url+'items/put',{item: this.editedItem}).then(response =>{
+          console.log(response.status);
+          console.log(response.body);
+          Object.assign(this.itemTable.items[this.editedIndex], this.editedItem);
+        },response => {
+          console.log("update error");
+					console.log(response.status);
+					console.log(response.body);
+        })
 
-				Object.assign(this.itemTable.items[this.editedIndex], this.editedItem);
         //replace item with index with editedItem.
       } else {
 				this.$http.post($base_url+'items/post',{item: this.editedItem}).then(response => {

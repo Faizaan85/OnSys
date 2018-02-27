@@ -93,12 +93,6 @@ class Item_model extends CI_Model
   }
   public function insert_item($data)
   {
-    // $part_details = $this->get_partno_details($data['PART_NO']);
-
-    // if($this->checkDbError($part_details) == false) //No error -> item exists with part no -> Cannot create same item.
-    // {
-    //   die("error");
-    // }
     unset($data['valid']);
     $this->db->insert('item',$data);
     $affected = $this->db->affected_rows();
@@ -111,9 +105,20 @@ class Item_model extends CI_Model
     }
 
   }
-  public function edit_item($data)
+  public function update_item($data)
   {
-
+    $part_no = $data['PART_NO'];
+    unset($data['$PART_NO']);//unset the primary number so that the update query doesnt try to update "part_no = part_no where part_no = part_no" hahaha.
+    unset($data['valid']);
+    $this->db->update('item',$data,array('PART_NO'=>$part_no));
+    $affected = $this->db->affected_rows();
+    if($affected>0){
+      $part_details = $this->get_partno_details($part_no);
+      return $part_details;
+    }
+    else {
+      $error = $this->db->error(); // Has keys 'code' and 'message'
+    }
   }
 
 }
