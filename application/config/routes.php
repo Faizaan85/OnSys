@@ -52,8 +52,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'pages/view';
 $route['orders'] = 'orders/index';
 $route['items'] = 'items/index';
-$route['items/get'] ['get'] = 'items/get_items';
-$route['items/search'] ['get'] = 'items/search_api';
+$route['items/post'] = 'items/post_item';
+$route['items/get']['get'] = 'items/get_items';
+$route['items/search']['get'] = 'items/search_api';
+
+
 
 
 $route['order/(:num)'] = 'orders/get_order_details/$1';

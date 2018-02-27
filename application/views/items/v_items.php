@@ -24,17 +24,20 @@
                         <v-text-field
                         label="Part No"
                         v-model="editedItem.PART_NO"
+                        @focus="errorMessage.part_no = []"
                         @blur="checkIfExists('part_no',$event)"
                         required
                         counter="15"
                         :rules="[rules.required, rules.max15]"
                         :error-messages="errorMessage.part_no"
+                        :readonly="editedIndex > -1"
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs12  sm6  md4 >
                         <v-text-field
                         label="Supplier No"
                         v-model="editedItem.SSNO"
+                        @focus="errorMessage.ssno = []"
                         @blur="checkIfExists('ssno',$event)"
                         required
                         :counter="15"
