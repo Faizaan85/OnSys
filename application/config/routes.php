@@ -64,6 +64,7 @@ $route['order/(:num)'] = 'orders/get_order_details/$1';
 $route['order/(:num)/print'] = 'orders/get_order_details/$1/$2';
 $route['orders/print_invoice/(:num)'] = 'orders/print_invoice/$1';
 $route['order/(:num)/printinv'] = 'orders/print_invoice/$1/$2';
+$route['order/new_cash_sale'] = 'orders/new_cash_sale';
 
 $route['invoice/(:num)'] = 'orders/view_invoice/$1';
 

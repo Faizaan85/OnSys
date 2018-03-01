@@ -432,6 +432,17 @@ class Orders extends CI_Controller
 			// show 404 error.
 		}
 	}
+	public function new_cash_sale()
+	{
+		$data['title'] = 'Cash Sale';
+		$jslist = array("vue.js","vue-resource.js","vuetify.js","vues/v_new_cash_sale.js");
+		$data['jslist'] = $jslist;
+		$data['autorefresh'] = FALSE;
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('orders/v_sales_order.php');
+		$this->load->view('templates/footer');
+	}
 	public function make_invoice()
 	{
 

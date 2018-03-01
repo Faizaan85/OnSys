@@ -27,16 +27,16 @@ if($this->session->logged_in === NULL)
     }
   }
   ?>
-  <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script>
+  <!-- <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script> -->
   <!-- <script src="<?php echo base_url(); ?>assets/js/vue.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/vuetify.js"></script> -->
-  <script src="<?php echo base_url(); ?>assets/js/jquery-ui/jquery-ui.min.js"></script>
+  <!-- <script src="<?php echo base_url(); ?>assets/js/jquery-ui/jquery-ui.min.js"></script> -->
 
-  <script src="<?php echo base_url(); ?>assets/js/jqvalid/dist/jquery.validate.js"></script>
-  <script src="<?php echo base_url(); ?>assets/DataTables/datatables.min.js"></script>
+  <!-- <script src="<?php echo base_url(); ?>assets/js/jqvalid/dist/jquery.validate.js"></script> -->
+  <!-- <script src="<?php echo base_url(); ?>assets/DataTables/datatables.min.js"></script> -->
 
   <script src="<?php echo base_url();?>assets/js/shortcut.js"></script>
-  <script src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
+  <!-- <script src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script> -->
 
   <?php if(isset($varsdefined['mode'])) : ?>
     <script type="text/javascript">
@@ -47,16 +47,16 @@ if($this->session->logged_in === NULL)
   var $base_url = "<?php echo base_url(); ?>"
   </script>
 
-  <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+  <!-- <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script> -->
   <script src="<?php echo base_url(); ?>assets/js/math.min.js"></script>
-  <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="<?php echo base_url(); ?>assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+  <!-- <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"> -->
+  <!-- <link href="<?php echo base_url(); ?>assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css"> -->
   <link href="<?php echo base_url(); ?>assets/css/roboto.min.css" rel="stylesheet" type="text/css">
   <link href="<?php echo base_url(); ?>assets/css/material-icons.min.css" rel="stylesheet" type="text/css">
 
-  <link href="<?php echo base_url(); ?>assets/DataTables/datatables.min.css" rel="stylesheet" type="text/css">
+  <!-- <link href="<?php echo base_url(); ?>assets/DataTables/datatables.min.css" rel="stylesheet" type="text/css"> -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href=" <?php echo base_url(); ?>assets/css/bootstrap-select.min.css" type="text/css">
+  <!-- <link rel="stylesheet" href=" <?php echo base_url(); ?>assets/css/bootstrap-select.min.css" type="text/css"> -->
   <link rel="stylesheet" href=" <?php echo base_url(); ?>assets/css/vuetify.min.css" type="text/css">
   <style type="text/css">
   input[type="number"] {
@@ -170,6 +170,7 @@ if($this->session->logged_in === NULL)
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">All<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="<?php echo base_url()?>items">Items</a></li>
+              <li><a href="<?php echo base_url()?>order/new_cash_sale">New Cash Sale</a></li>
               <li><a href="<?php echo base_url()?>orders">Orders</a></li>
               <li><a href="<?php echo base_url()?>neworder">New Orders</a></li>
               <li><a href="<?php echo base_url()?>new_credit_note">New Sales Return</a></li>
