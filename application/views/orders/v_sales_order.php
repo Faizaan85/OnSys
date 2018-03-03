@@ -27,7 +27,7 @@
                           <v-flex xs12 sm4 md4>
                             <v-text-field
                             label="Name"
-                            v-model="editedItem.customer"
+                            v-model="customer.name"
                             ></v-text-field>
                           </v-flex>
                           <v-flex xs12 sm4 md4>
@@ -72,6 +72,13 @@
         </v-layout>
         <v-layout>
           <v-flex xs12>
+            <v-text-field
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
+            v-model="orderTable.search"
+            ></v-text-field>
             <v-data-table
             :headers = "orderTable.headers"
             :items = "orderTable.orders"
@@ -80,20 +87,27 @@
             class="elevation-2"
             >
             <template
-            slot="orders"
-            slot-scope="i"
+            slot="items"
+            slot-scope="props"
             >
-              <td>{{p.order.Omid}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
-              <td>{{p.order.}}</td>
+              <td>{{props.item.OmId}}</td>
+              <td>{{props.item.OmCompanyName}}</td>
+              <td>{{props.item.Lpo}}</td>
+              <td>{{props.item.InId}}</td>
+              <td>{{props.item.OmStatus}}</td>
+              <td>{{props.item.OmStore1}}</td>
+              <td>{{props.item.OmStore2}}</td>
+              <td>{{props.item.OmPrinted}}</td>
+              <td>{{props.item.OmCreatedOn}}</td>
+              <td>{{props.item.OmCreatedBy}}</td>
+              <td class="justify-center layout px-0">
+                <v-btn icon class="mx-0" @click="editItem(props.item)">
+                  <v-icon color="teal">edit</v-icon>
+                </v-btn>
+                <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+                  <v-icon color="pink">delete</v-icon>
+                </v-btn>
+              </td>
             </template>
 
             </v-data-table>

@@ -5,6 +5,38 @@
         {
 //            $this->load->database();
         }
+        public function api_get_orders($params)
+        {
+
+          if(intval($params['days']) > 0 && $params['oId'] == NULL)
+          {
+            $this->db->select('OmId, OmCompanyName, OmCreatedOn, OmLpo, InId, OmStatus, OmStore1, OmStore2, OmPrinted, OmCreatedBy');
+            $yesterday = date("Y-m-d",strtotime("-".intval($params['days'])." day"));
+            $whereCondition = "OmCreatedOn > '".$yesterday."' ";
+            $this->db->where($whereCondition);
+            $query = $this->db->order_by('OmId','DESC')->get('ordermaster_user');
+          }
+          if($params['days'] == NULL && $params['oId'] == NULL)
+          {
+            $query = $this->db->order_by('OmId','DESC')->get('ordermaster_user');
+          }
+          if($params['oId'] != NULL)
+          {
+            $query =  $this->db->get_where('ordermaster_user',array('OmId'=>$params['oId']));
+          }
+          $result = $query->result_array();
+          $result_count =  $query->num_rows();
+          if($result_count>0)
+          {
+            // return $this->db->last_query();
+             return $result;
+          }
+          else
+          {
+            $error = $this->db->error(); // Has keys 'code' and 'message'
+            return $error;
+          }
+        }
 
         public function get_orders($cond = "ALL") //
         {
@@ -218,5 +250,5 @@
             $query = $this->db->get_where('invoiceitems', array('IiInId'=>$inid));
             return $query->result_array();
         }
-        
+
     }

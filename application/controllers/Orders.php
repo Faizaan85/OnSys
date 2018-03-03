@@ -213,6 +213,24 @@ class Orders extends CI_Controller
 		$this->load->view('pages/orderslist');
 		$this->load->view('templates/footer');
 	}
+	public function get()
+	{
+		$this->load->model('order_model');
+		//Lets check for parameters. fun!!
+		$data['days'] = $this->input->get('days');
+		$data['oId'] = $this->input->get('oid');
+		$result = $this->order_model->api_get_orders($data);
+		if($this->checkDbError($result))
+		{
+			header('HTTP/1.1 500 Get Failed');
+			header('Content-Type: application/json; charset=UTF-8');
+			die(json_encode(array('message' => $result['message'], 'code' => $result['code'])));
+		}
+		else {
+			header('Content-Type: application/json');
+			echo json_encode($result);
+		}
+	}
 	public function get_orderlist()
 	{
 

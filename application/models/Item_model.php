@@ -102,6 +102,7 @@ class Item_model extends CI_Model
     }
     else {
       $error = $this->db->error(); // Has keys 'code' and 'message'
+      return $error;
     }
 
   }
@@ -118,6 +119,7 @@ class Item_model extends CI_Model
     }
     else {
       $error = $this->db->error(); // Has keys 'code' and 'message'
+      return $error;
     }
   }
 
