@@ -1,4 +1,11 @@
-        
+        </v-container>
+      </v-content>
+    <v-footer color="indigo" app>
+      <span class="white--text">&copy; 2017</span>
+    </v-footer>
+  </v-app>
+</template>
+
 </body>
 <?php
   if(isset($jslist)):
@@ -39,7 +46,16 @@
 		console.log(url);
 		return url;
 	}
-
+  new Vue({
+    el:'#inspire',
+    data:
+    {
+      drawer: null
+    },
+    props: {
+      source: String
+    }
+  });
 	// $('#btnsubmit').on('click',function(){
     //     var str = $('#search').val();
 	// 	var url = $base_url + change_url(str);

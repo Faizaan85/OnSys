@@ -4,6 +4,17 @@
       <v-container fluid>
         <v-layout row wrap>
           <v-flex>
+            <v-btn color="primary" dark @click.stop="open">New</v-btn>
+            <v-dialog
+            v-model="dialog"
+            fullscreen
+            transition="dialog-bottom-transition"
+            :overlay="false"
+            scrollable
+            >
+              <v-btn icon @click.native="dialog = false">
+              <v-icon>close</v-icon>
+            </v-btn>
             <v-tabs
               v-model="active"
               color="cyan"
@@ -68,6 +79,7 @@
                 {{items}}
               </v-tab-item>
             </v-tabs>
+          </v-dialog>
           </v-flex>
         </v-layout>
         <v-layout>
@@ -94,10 +106,14 @@
               <td>{{props.item.OmCompanyName}}</td>
               <td>{{props.item.Lpo}}</td>
               <td>{{props.item.InId}}</td>
-              <td>{{props.item.OmStatus}}</td>
-              <td>{{props.item.OmStore1}}</td>
-              <td>{{props.item.OmStore2}}</td>
-              <td>{{props.item.OmPrinted}}</td>
+              <td v-if="props.item.OmStatus==1"> <v-icon color="green">done</v-icon> </td>
+              <td v-else><v-icon color="red">clear</v-icon></td>
+              <td v-if="props.item.OmStore1==1"> <v-icon color="green">done</v-icon> </td>
+              <td v-else><v-icon color="red">clear</v-icon> </td>
+              <td v-if="props.item.OmStore2==1"> <v-icon color="green">done</v-icon> </td>
+              <td v-else><v-icon color="red">clear</v-icon> </td>
+              <td v-if="props.item.OmPrinted==1"> <v-icon color="green">done</v-icon> </td>
+              <td v-else><v-icon color="red">clear</v-icon> </td>
               <td>{{props.item.OmCreatedOn}}</td>
               <td>{{props.item.OmCreatedBy}}</td>
               <td class="justify-center layout px-0">

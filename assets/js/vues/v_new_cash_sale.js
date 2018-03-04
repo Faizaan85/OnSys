@@ -14,6 +14,62 @@ new Vue({
       customers: {},
       name:''
     },
+    dialog:false,
+    editedIndex:-1,
+    editedOrderMaster: {
+      OmId:'',
+      OmCompanyCode:'',
+      OmCompanyName:'',
+      OmCreatedOn:'',
+      OmLpo:'',
+      OmPayTime:'',
+      OmDiscount:0.00,
+      OmAdd:'',
+      OmTel1:'',
+      OmTel2:''
+    },
+    defaultOrderMaster: {
+      OmId:'',
+      OmCompanyCode:'',
+      OmCompanyName:'',
+      OmCreatedOn:'',
+      OmLpo:'',
+      OmPayTime:'',
+      OmDiscount:0.00,
+      OmAdd:'',
+      OmTel1:'',
+      OmTel2:''
+    },
+    editedOrderItem: {
+      OiId:'',
+      OiOmId:'',
+      OiPartNo:'',
+      OiSupplierNo:'',
+      OiDescription:'',
+      OiLeftQty:'',
+      OiRightQty:'',
+      OiTotalQty:'',
+      OiPrice:'',
+      OiAmount:'',
+      OiCreatedOn:'',
+      OiModifiedOn:'',
+      OiStatus:''
+    },
+    defaultOrderItem: {
+      OiId:'',
+      OiOmId:'',
+      OiPartNo:'',
+      OiSupplierNo:'',
+      OiDescription:'',
+      OiLeftQty:'',
+      OiRightQty:'',
+      OiTotalQty:'',
+      OiPrice:'',
+      OiAmount:'',
+      OiCreatedOn:'',
+      OiModifiedOn:'',
+      OiStatus:''
+    },
     orderTable: {
       headers: [
         {
@@ -94,13 +150,22 @@ new Vue({
     },
     initialize(){
       console.log($base_url+'orders/get');
-      this.$http.get($base_url+'orders/get').then(response => {
+      this.$http.get($base_url+'orders/get?days=2').then(response => {
         this.orderTable.orders = response.body;
         console.log(this.orderTable.orders);
       }, response => {
         console.log("Initialize Error!!");
         console.log(response.body);
       });
+    },
+    open() {
+      this.dialog = true;
+    },
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedIndex = -1;
+      }, 300);
     }
   },
   created() {
